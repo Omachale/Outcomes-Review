@@ -1,0 +1,1542 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04151a">
+<title>Outcomes Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04151a; --panel:rgba(8,34,38,.9); --panel2:rgba(255,255,255,.055); --line:rgba(150,230,215,.16);
+  --text:#e9fbf7; --muted:#9ec7bf; --gold:#ff9fb2; --gold2:#ffd3dc; --teal:#8ee87a; --coral:#ff7a6b; --violet:#3fd6b0;
+  --r:18px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:17px;line-height:1.45;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;background:radial-gradient(ellipse at 50% -10%,#0f3d42 0%,#082429 45%,#04151a 80%)}
+#app{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 32px);min-height:100vh;min-height:100dvh}
+.screen{display:none}
+.screen.active{display:block;animation:fadeUp .35s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.01em;margin:0}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+.muted{color:var(--muted)} .small{font-size:.85rem}
+.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border-radius:14px;font-weight:800;font-size:1rem;transition:transform .12s,background .2s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#3a0d18;box-shadow:0 4px 18px rgba(255,159,178,.25)}
+.btn.ghost{background:var(--panel2);border:1px solid var(--line)}
+.btn.small{min-height:40px;padding:0 14px;font-size:.9rem}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.45}
+.icon-btn{width:44px;height:44px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.icon-btn svg{width:22px;height:22px}
+.back-btn{flex:none;padding:0 12px 0 8px;gap:4px;min-height:44px}
+
+/* ---------- home ---------- */
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.top h1{font-size:1.9rem;line-height:1.05;margin-top:4px}
+.level-card{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.lvl-badge{width:62px;height:62px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:#3a0d18;background:radial-gradient(circle at 35% 30%,#fff0f3,var(--gold) 60%,#b04a63);box-shadow:0 0 24px rgba(255,159,178,.45)}
+.lvl-info{flex:1;min-width:0}
+.lvl-title{font-weight:800;font-size:1.05rem}
+.xpbar{height:10px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0 4px}
+.xpbar>div{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--violet),var(--gold));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.session-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;margin-bottom:12px}
+.session-strip .s-num{font-weight:800}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.quick .btn{min-height:62px;font-size:1rem;line-height:1.15;text-align:center;flex-direction:column;gap:2px}
+.unit{margin-bottom:18px}
+.unit-head{display:flex;align-items:baseline;gap:8px;margin:0 2px 8px}
+.unit-head .u{font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem}
+.unit-head .t{color:var(--muted);font-size:.86rem}
+.pgrid{display:grid;grid-template-columns:1fr;gap:8px}
+.pcard{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;text-align:left;padding:12px 14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);transition:transform .12s,border-color .2s}
+.pcard:active{transform:scale(.985)}
+.pcard:hover{border-color:rgba(255,159,178,.4)}
+.pc-id{grid-row:span 2;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;background:rgba(63,214,176,.16);color:#b5f2e2;font-size:.95rem}
+.pc-title{font-weight:800;line-height:1.2}
+.pc-sub{color:var(--muted);font-size:.82rem;line-height:1.25;grid-column:2}
+.stars{grid-row:span 2;font-size:.95rem;letter-spacing:1px;white-space:nowrap}
+.stars i{font-style:normal;color:rgba(255,255,255,.18)} .stars i.on{color:var(--gold);text-shadow:0 0 8px rgba(255,159,178,.6)}
+.foot{display:flex;gap:10px;justify-content:center;margin-top:8px}
+
+/* ---------- point ---------- */
+.back-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.point-hero{text-align:center;padding:22px 18px;margin-bottom:14px}
+.point-hero .code{font-weight:800;color:#b5f2e2;letter-spacing:.08em}
+.point-hero h2{font-size:1.7rem;margin:4px 0}
+.point-hero .stars{font-size:1.4rem;margin-top:8px;display:block}
+.modes{display:grid;gap:10px}
+.mode{display:flex;gap:14px;align-items:center;text-align:left;padding:14px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+.mode:active{transform:scale(.985)}
+.mode .mi{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center;background:linear-gradient(160deg,rgba(255,159,178,.22),rgba(63,214,176,.18))}
+.mode .mi svg{width:26px;height:26px;stroke:var(--gold2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mode .mn{font-weight:800;font-size:1.05rem}
+.mode .md{color:var(--muted);font-size:.85rem;line-height:1.3}
+
+/* ---------- game ---------- */
+.hud{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5;padding-top:2px}
+.hud-mid{flex:1;min-width:0}
+.hud-title{font-size:.8rem;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{height:8px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px}
+.prog>div{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .4s}
+.hud-right{text-align:right;min-width:62px}
+.streak{font-weight:800;font-size:.85rem;color:var(--muted);transition:color .3s}
+.streak.hot{color:var(--gold)}
+.hudxp{font-weight:800;font-size:.85rem}
+.sky-gap{height:max(19vh,120px)}
+.ins{color:var(--muted);font-size:.9rem;margin-bottom:10px;font-weight:700}
+.ins .kw{color:var(--gold);font-size:1.15em;font-weight:800}
+.sent{font-size:1.28rem;line-height:1.5;font-weight:700;margin-bottom:12px}
+.sent .spk{color:var(--gold);margin-right:4px}
+.blank{display:inline-block;min-width:3.4em;border-bottom:3px solid var(--gold);color:var(--gold2);padding:0 4px;text-align:center;line-height:1.2}
+.blank.sm{min-width:2.6em}
+.base{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(63,214,176,.18);color:#c9f6ea;font-weight:800;margin-bottom:14px}
+.gap-form{display:flex;gap:8px}
+.gap-form input{flex:1;min-width:0;height:52px;border-radius:14px;border:2px solid var(--line);background:rgba(0,0,0,.25);color:var(--text);font:inherit;font-size:1.1rem;font-weight:700;padding:0 14px;outline:none}
+.gap-form input:focus{border-color:var(--gold)}
+.opts{display:grid;gap:10px}
+.opt{min-height:56px;padding:10px 16px;border-radius:14px;background:var(--panel2);border:2px solid var(--line);font-weight:800;font-size:1.08rem;text-align:left;display:flex;align-items:center;gap:12px;transition:border-color .2s,background .2s}
+.opt .door{width:30px;height:30px;flex:none;border-radius:8px 8px 3px 3px;display:grid;place-items:center;font-size:.8rem;background:rgba(255,159,178,.16);color:var(--gold)}
+.opt.good{border-color:var(--teal);background:rgba(95,224,181,.14)}
+.opt.bad{border-color:var(--coral);background:rgba(255,125,125,.13)}
+.chunks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chunk{padding:10px 13px;border-radius:12px;background:var(--panel2);border:2px solid var(--line);font-weight:800;font-size:1.08rem;transition:all .2s}
+.chunk.found{border-color:var(--gold);background:rgba(255,159,178,.16)}
+.chunk.miss{border-color:var(--coral);background:rgba(255,125,125,.12);text-decoration:line-through}
+.chunk.actual{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,159,178,.25)}
+.fixlabel{font-weight:800;color:var(--gold2);margin:4px 0 8px;font-size:.95rem}
+/* sort */
+.card-stage{height:190px;display:grid;place-items:center;margin:6px 0 14px;perspective:800px}
+.sort-card{width:min(86%,340px);min-height:130px;padding:20px;border-radius:20px;display:grid;place-items:center;text-align:center;font-size:1.3rem;font-weight:800;line-height:1.35;
+  background:linear-gradient(160deg,#0f3d42,#0a2a2e);border:1px solid rgba(255,159,178,.35);box-shadow:0 14px 40px rgba(0,0,0,.45),0 0 30px rgba(63,214,176,.15);touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s}
+.sort-card.drag{transition:none}
+.sort-card.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.bins{display:grid;gap:10px}
+.bins.b2{grid-template-columns:1fr 1fr}
+.bins.b3{grid-template-columns:1fr 1fr 1fr}
+.bin{min-height:64px;padding:8px;border-radius:14px;background:var(--panel2);border:2px dashed rgba(150,230,215,.3);font-weight:800;font-size:.98rem;line-height:1.2;transition:all .2s}
+.bin.hint{border-style:solid;border-color:var(--teal);background:rgba(95,224,181,.14)}
+.bin.lean{border-color:var(--gold);background:rgba(255,159,178,.14)}
+/* match */
+.match{display:grid;gap:14px}
+.mcol{display:grid;gap:8px}
+.mcol .lab{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.mb{text-align:left;padding:11px 13px;border-radius:12px;background:var(--panel2);border:2px solid var(--line);font-weight:700;font-size:1rem;line-height:1.3;display:flex;gap:10px;align-items:center;transition:all .2s}
+.mb .pn{width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:.75rem;font-weight:800;background:rgba(255,255,255,.08);color:var(--muted)}
+.mb.sel{border-color:var(--gold);background:rgba(255,159,178,.14)}
+.mb.done{border-color:var(--teal);background:rgba(95,224,181,.1);opacity:.85}
+.mb.done .pn{background:var(--teal);color:#06261b}
+.mb.err{border-color:var(--coral);animation:shake .35s}
+/* feedback */
+.fb{margin-top:14px;padding:14px;border-radius:14px;border:1px solid;animation:fadeUp .25s ease both}
+.fb.ok{border-color:rgba(95,224,181,.45);background:rgba(95,224,181,.08)}
+.fb.bad{border-color:rgba(255,125,125,.45);background:rgba(255,125,125,.07)}
+.fb-head{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:1.05rem;margin-bottom:6px}
+.fb.ok .fb-head{color:var(--teal)} .fb.bad .fb-head{color:var(--coral)}
+.fb-xp{color:var(--gold);font-size:.95rem}
+.fb-sent{font-size:1.08rem;font-weight:700;margin:4px 0}
+.fb-sent mark,.rev mark{background:none;color:var(--gold2);border-bottom:2px solid var(--gold);padding:0 2px}
+.fb-your{color:var(--muted);font-size:.9rem}
+.fb-also,.fb-note{font-size:.9rem;color:var(--muted);margin-top:4px}
+.fb-note{color:var(--gold2)}
+.fb-rule{margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(63,214,176,.12);font-size:.92rem;line-height:1.4}
+.fb-rule::before{content:'Rule  ';font-weight:800;color:#b5f2e2;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.fb-rule.hide-rule{display:none}
+.fb-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.fb-actions .primary{min-width:120px}
+/* results & report */
+.result{text-align:center}
+.big-score{font-family:'Fraunces',serif;font-size:4.2rem;font-weight:700;line-height:1;margin:10px 0 2px}
+.big-score span{font-size:2rem;color:var(--muted)}
+.res-msg{font-size:1.1rem;font-weight:800;margin:6px 0}
+.res-xp{display:inline-block;margin:6px 0 14px;padding:6px 16px;border-radius:999px;background:rgba(255,159,178,.16);color:var(--gold);font-weight:800;font-size:1.1rem}
+.btn-col{display:grid;gap:10px;margin-top:16px}
+details.rev{text-align:left;margin-top:10px;background:var(--panel2);border-radius:12px;padding:10px 14px}
+details.rev summary{font-weight:800;cursor:pointer}
+.rev-item{padding:9px 0;border-top:1px solid var(--line);font-size:.95rem}
+.rev-item .yw{color:var(--coral);font-size:.85rem}
+.report-head{text-align:center;margin-bottom:6px}
+.grade{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--gold);margin-top:2px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.stat{background:var(--panel2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:1.35rem;font-family:'Fraunces',serif}
+.stat span{font-size:.75rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.bars{display:grid;gap:7px;margin-top:6px}
+.bar{display:grid;grid-template-columns:2.6em 1fr auto;gap:8px;align-items:center;font-size:.88rem}
+.bar .bt{height:12px;border-radius:7px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar .bt div{height:100%;border-radius:7px}
+.bar .bv{text-align:right;font-weight:800;color:var(--muted);white-space:nowrap;min-width:6.2em}
+.focus-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:5px 10px;border-radius:999px;background:rgba(255,125,125,.14);color:#ffc2c2;font-weight:800;font-size:.82rem}
+.sec-title{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+.list{display:grid;gap:6px}
+.li{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:10px;background:var(--panel2);font-size:.9rem}
+.li b{font-weight:800}
+.stamp{font-size:.78rem;color:var(--muted);text-align:center;margin-top:12px}
+.help p{margin:.4em 0 .9em}
+.help h3{font-size:1.1rem;margin-top:14px}
+/* overlay + toast */
+.overlay{position:fixed;inset:0;z-index:20;display:none;place-items:center;background:rgba(3,6,18,.7);padding:24px}
+.overlay.show{display:grid;animation:fadeUp .3s ease}
+.overlay .panel{text-align:center;max-width:360px}
+.overlay .lvl-badge{width:96px;height:96px;font-size:2.6rem;margin:6px auto 10px}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 66px);transform:translateX(-50%) translateY(-20px);opacity:0;z-index:30;padding:10px 18px;border-radius:999px;background:linear-gradient(180deg,var(--gold2),var(--gold));color:#3a0d18;font-weight:800;pointer-events:none;transition:all .3s;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+body[data-theme="clock"]{
+  --bg:#0c1117; --panel:rgba(24,33,44,.92); --panel2:rgba(200,222,245,.06); --line:rgba(160,195,230,.22);
+  --text:#eef4fa; --muted:#a8b7c6; --gold:#8cc4f0; --gold2:#d4eaff; --teal:#86d9a6; --coral:#ff8068; --violet:#5c7f9e;
+}
+body[data-theme="clock"] #sky{background:radial-gradient(ellipse at 50% -10%,#1c2a38 0%,#111a24 50%,#0c1117 85%)}
+body[data-theme="clock"] .pc-id{background:rgba(92,127,158,.2);color:#cfe6fa}
+body[data-theme="clock"] .point-hero .code{color:#cfe6fa}
+body[data-theme="clock"] .panel{box-shadow:0 10px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(200,225,255,.06)}
+body[data-theme="clock"] .lvl-badge{background:radial-gradient(circle at 35% 30%,#f2f8ff,#8cc4f0 60%,#3d5d7a)}
+body[data-theme="clock"] .fb-rule{background:rgba(92,127,158,.16)}
+body[data-theme="clock"] .fb-rule::before{color:#cfe6fa}
+body[data-theme="clock"] .base{background:rgba(92,127,158,.2);color:#e2f0fb}
+body[data-theme="clock"] h1, body[data-theme="clock"] .door-title{letter-spacing:-.005em}
+body[data-theme="clock"] .sort-card{background:linear-gradient(160deg,#2b3d50,#17212c);border-color:rgba(140,196,240,.45);box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 30px rgba(140,196,240,.12)}
+body[data-theme="clock"] .bin{border-color:rgba(160,195,230,.35)}
+body[data-theme="clock"] .opt .door{background:rgba(140,196,240,.16)}
+body[data-theme="clock"] .btn.primary, body[data-theme="clock"] #toast, body[data-theme="clock"] .lvl-badge{color:#0c1d2c}
+.doors{display:grid;gap:12px;margin:4px 0 18px}
+.door-card{display:flex;align-items:center;gap:16px;text-align:left;padding:20px 18px;border-radius:20px;border:1px solid;transition:transform .12s}
+.door-card:active{transform:scale(.985)}
+.door-card.sky{background:linear-gradient(135deg,#0f3d42,#08262a);border-color:rgba(150,230,215,.25);color:#e9fbf7}
+.door-card.clock{background:linear-gradient(135deg,#2b3a4a,#141c25);border-color:rgba(160,195,230,.35);color:#eef4fa}
+.door-art{width:64px;height:64px;flex:none;display:grid;place-items:center;border-radius:18px}
+.door-art svg{width:44px;height:44px}
+.door-card.sky .door-art{background:rgba(63,214,176,.18);color:#ff9fb2}
+.door-card.clock .door-art{background:rgba(140,196,240,.16);color:#9cc8ec}
+.door-card.clock .door-art svg{animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.door-txt{display:flex;flex-direction:column;gap:2px}
+.door-title{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.45rem;line-height:1.1}
+.door-card.clock .eyebrow{color:#9cc8ec}
+.door-card .muted{color:inherit;opacity:.72}
+.back-row .back-btn{min-height:44px}
+.back-btn svg{width:18px;height:18px;flex:none}
+@media (min-width:520px){ .pgrid{grid-template-columns:1fr} .top h1{font-size:2.2rem} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div id="app">
+  <section id="landing" class="screen active"></section>
+  <section id="home" class="screen"></section>
+  <section id="point" class="screen"></section>
+  <section id="game" class="screen">
+    <div class="hud">
+      <button class="btn ghost small back-btn" data-act="quit" aria-label="Back to menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Back</button>
+      <div class="hud-mid"><div class="hud-title" id="hudTitle"></div><div class="prog"><div id="progFill"></div></div></div>
+      <div class="hud-right"><div class="streak" id="hudStreak">streak 0</div><div class="hudxp" id="hudXp">0 XP</div></div>
+    </div>
+    <div class="sky-gap"></div>
+    <div id="stage" class="panel"></div>
+  </section>
+  <section id="result" class="screen"></section>
+  <section id="report" class="screen"></section>
+  <section id="history" class="screen"></section>
+  <section id="help" class="screen"></section>
+</div>
+<div class="overlay" id="overlay"></div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ===================== OUTCOMES INTERMEDIATE · GRAMMAR (Units 1–4) =====================
+   g(point, text, base, answers, rule, instruction?)  typed gap
+   m(point, text, options, rule)   multichoice – FIRST option correct
+   f(point, chunks, wrongIndex, fixes, rule)  error hunt – FIRST fix correct
+   The rule argument may be a RULES key or plain text.
+======================================================================================== */
+
+const POINTS = [
+  { id:'1A', unit:1, title:'Auxiliary verbs', sub:'do, be and have in questions and negatives', star:'The Lantern' },
+  { id:'1B', unit:1, title:'Narrative tenses', sub:'took, was walking, had left', star:'The Storyteller' },
+  { id:'2A', unit:2, title:'Linking verbs', sub:'look tired, look like, look as if', star:'The Mirror' },
+  { id:'2B', unit:2, title:'Present simple & continuous', sub:'I owe, I’m having dinner', star:'The River' },
+  { id:'3A', unit:3, title:'Future plans', sub:'thinking of going, might, I’ll take', star:'The Compass' },
+  { id:'3B', unit:3, title:'Present perfect & past simple', sub:'I’ve been … / I went there last year', star:'The Traveller' },
+  { id:'4A', unit:4, title:'Habit and frequency', sub:'hardly ever, used to, whenever I can', star:'The Pendulum' },
+  { id:'4B', unit:4, title:'Duration', sub:'for, since, How long have you been …?', star:'The Hourglass' }
+];
+const UNITS = { 1:'First class', 2:'Feelings', 3:'Time off', 4:'Interests' };
+
+const GAP_INS = {
+  '1B':'Write the correct form of the verb in brackets.',
+  '3B':'Write the verb in brackets in the present perfect or the past simple.',
+  '4B':'Write the verb in brackets in the correct form.'
+};
+
+const RULES = {
+  aux_do:'do / does / did + infinitive: present simple and past simple questions and negatives (Do you like …? Did you go …?).',
+  aux_be:'be + -ing: continuous forms (What are you studying? Where were you living?). be + past participle: passives (What language was it written in?).',
+  aux_have:'have / has + past participle: present perfect (Have you ever eaten …? How long have you been learning …?).',
+  past_irr:'Learn irregular past forms: take → took, wake → woke, fall → fell, run → ran, come → came, give → gave, let → let, teach → taught.',
+  past_pp:'Past participles: speak → spoken, forget → forgotten, leave → left, eat → eaten, write → written, see → seen.',
+  past_cont:'Past continuous (was / were + -ing) = an action in progress, often interrupted by another action.',
+  past_perf:'Past perfect (had + past participle) = the past before the past: it happened before the other past events in the story.',
+  past_neg:'Past simple negative: didn’t + infinitive (I didn’t see). Not didn’t saw.',
+  link_adj:'Linking verb + adjective: You look tired. It sounds great. He seems a bit down. (No like, no -ly.)',
+  link_like:'Linking verb + like + noun: She looks like a model. It tastes like chicken. That sounds like a nightmare.',
+  link_asif:'Linking verb + as if / like + clause: You look as if you’ve seen a ghost.',
+  ps_state:'Some verbs are not normally used in the continuous: know, need, owe, belong, prefer, want, seem, believe.',
+  pc_now:'Present continuous for things happening now or around now: Look! It’s raining. She’s doing a Master’s.',
+  ps_habit:'Present simple for habits and things that are generally true: He gets like this sometimes.',
+  pc_form:'Present continuous = am / is / are + -ing: How’s your course going?',
+  fut_think:'be thinking of + -ing: I’m thinking of going to Cuba.',
+  fut_modal:'might / will probably / won’t + infinitive without to: I might have to work. We’ll probably hire a car.',
+  fut_will:'Use will (’ll) for a decision you make at the moment of speaking: Don’t worry, I’ll take the bus.',
+  fut_q:'Questions about plans: What are you doing …? Are you going to …? Where are you going to stay?',
+  fut_prob:'probably goes after will (I’ll probably go) but before won’t / isn’t (He probably won’t come. He probably isn’t coming).',
+  pp_exp:'Present perfect (have / has + past participle) for experiences, with no finished time: Have you ever done a parachute jump?',
+  ps_time:'Past simple with a finished time: last year, yesterday, in 2002, ten minutes ago, 500 years ago.',
+  pp_now:'Present perfect for experiences up to now: I’ve been to Peru five or six times now.',
+  pp_supposed:'be supposed to + infinitive = people say: It’s supposed to be good.',
+  pp_never:'No, never. = No, I’ve never been there.',
+  freq_ever:'hardly ever (not hardly never): I hardly ever go out.',
+  freq_every:'once / twice every two weeks, every day, nearly every day. Not once a two weeks.',
+  freq_much:'Not as much as I used to / as I should / as I’d like to.',
+  freq_whenever:'Whenever I can. Whenever I get the chance. (whenever = every time)',
+  freq_pos:'Frequency adverbs go before the main verb: I always go to my art class on Tuesdays.',
+  freq_used:'used to + infinitive for past habits: We used to go to Blackpool. Negative: didn’t use to (you will also see didn’t used to).',
+  freq_that:'Not that often. / Not so often. / Not very often. Not much often is wrong.',
+  freq_all:'all the time = very often.',
+  dur_ppc:'Present perfect continuous (have been + -ing) for an activity that started in the past and is still going on: How long have you been doing judo?',
+  dur_state:'State verbs (know, have, belong) use the present perfect simple, not continuous: How long have you known each other?',
+  dur_ps:'Past simple for a finished period: I ran in a team for five years. How long did you do that?',
+  dur_for:'for + a period of time: for ten years, for two hours, for ages.',
+  dur_since:'since + a point in time: since 2015, since I was a kid, since leaving my last job.',
+  dur_from:'from … till / to … for a finished period: from 2010 till 2014.',
+  dur_during:'during + noun (during the match, during the night). for + a length of time (for two hours). Not during two hours.'
+};
+
+const GAP = [], MC = [], FAULT = [], SORTS = [], MATCHES = [];
+function g(p, t, b, a, r, ins){ GAP.push({ p, t, b, a: Array.isArray(a) ? a : [a], r, ins }); }
+function m(p, t, o, r){ MC.push({ p, t, o, r }); }
+function f(p, c, w, x, r){ FAULT.push({ p, c, w, x, r }); }
+
+/* ---------------- 1A Auxiliary verbs ---------------- */
+m('1A','What ___ you studying at the moment?',['are','do','have'],'aux_be');
+m('1A','___ you enjoy the party last night?',['Did','Were','Have'],'aux_do');
+m('1A','___ you ever eaten snake?',['Have','Did','Are'],'aux_have');
+m('1A','How long ___ you been learning English?',['have','are','did'],'aux_have');
+m('1A','Where ___ you living at the time?',['were','did','had'],'aux_be');
+m('1A','___ your brother been to Lisbon before?',['Has','Is','Does'],'aux_have');
+m('1A','What language was this film made ___?',['in','on','by'],'aux_be');
+m('1A','She ___ feeling very well today, I’m afraid.',['isn’t','doesn’t','hasn’t'],'aux_be');
+m('1A','I ___ really like this place. Can we go somewhere else?',['don’t','am not','haven’t'],'aux_do');
+m('1A','When I told them, they ___ believe me. They said I was lying!',['didn’t','weren’t','hadn’t'],'aux_do');
+m('1A','___ you and your sister get on OK?',['Do','Are','Have'],'aux_do');
+m('1A','How long ___ he been married?',['has','is','does'],'aux_have');
+m('1A','Where ___ your parents first meet?',['did','were','have'],'aux_do');
+m('1A','I ___ working at the moment. I need to find a job!',['’m not','don’t','haven’t'],'aux_be');
+m('1A','Where ___ you based?',['are','do','have'],'aux_be');
+m('1A','How long ___ it usually take you to get to work?',['does','is','has'],'aux_do');
+f('1A',['How long','are you been','learning English?'],1,['have you been','are you being','did you been'],'aux_have');
+f('1A',['Did you visited','many countries','when you were younger?'],0,['Did you visit','Did you visiting','Do you visited'],'aux_do');
+f('1A',['Where','was you','born?'],1,['were you','did you','have you'],'aux_be');
+f('1A',['Is','your parents','met your girlfriend yet?'],0,['Have','Do','Are'],'aux_have');
+
+/* ---------------- 1B Narrative tenses ---------------- */
+const PS_INS = 'Write the past simple of the verb in brackets.';
+const PP_INS = 'Write the past participle of the verb in brackets.';
+g('1B','One day my dad ___ an overnight train to Prague.','take','took','past_irr',PS_INS);
+g('1B','During the night he ___ asleep.','fall','fell','past_irr',PS_INS);
+g('1B','When he ___ up, he realised they were in Prague.','wake','woke','past_irr',PS_INS);
+g('1B','He ___ back to the train.','run','ran','past_irr',PS_INS);
+g('1B','Then this guy ___ up to him and asked him something in Czech.','come','came','past_irr',PS_INS);
+g('1B','Anton ___ him something to eat.','give','gave','past_irr',PS_INS);
+g('1B','He ___ him phone his parents.','let','let','past_irr',PS_INS);
+g('1B','When I ___ English in Argentina, I made a lot of mistakes.','teach','taught','past_irr',PS_INS);
+g('1B','We ___ for the first time on a cruise ship.','meet','met','past_irr',PS_INS);
+g('1B','I ___ a noise and turned round to look.','hear','heard','past_irr',PS_INS);
+g('1B','It was the first time I’d ___ to anyone Chinese outside my class.','speak','spoken','past_pp',PP_INS);
+g('1B','I suddenly realised I’d ___ my passport at home.','leave','left','past_pp',PP_INS);
+g('1B','She was hungry because she hadn’t ___ anything all day.','eat','eaten','past_pp',PP_INS);
+g('1B','I knew the film because I’d ___ it before.','see','seen','past_pp',PP_INS);
+g('1B','He was annoyed because I’d ___ his birthday.','forget','forgotten','past_pp',PP_INS);
+m('1B','I suddenly remembered I ___ the cooker, so I went back home.',['hadn’t turned off','haven’t turned off','am not turning off'],'past_perf');
+m('1B','By the time we got there, the show ___ already started.',['had','has','did'],'past_perf');
+m('1B','They first met when they ___ both working on a cruise ship.',['were','had','did'],'past_cont');
+m('1B','I ___ down the street when I heard a noise behind me.',['was walking','am walking','walk'],'past_cont');
+m('1B','It was dark and it ___ when we left the house.',['was raining','is raining','rains'],'past_cont');
+m('1B','He looked at his bag and realised he ___ his phone.',['didn’t have','doesn’t have','hasn’t had'],'past_neg');
+f('1B',['One day','my dad','taked','an overnight train to Prague.'],2,['took','taken','taking'],'past_irr');
+f('1B',['When he','waked up,','he realised','they were in Prague.'],1,['woke up,','woken up,','waking up,'],'past_irr');
+f('1B',['I didn’t saw','the hole','in front of me.'],0,['I didn’t see','I don’t saw','I didn’t seen'],'past_neg');
+f('1B',['He ran back to the station,','but when he got there, the train','has left.'],2,['had left.','have left.','is left.'],'past_perf');
+f('1B',['I','tripped','and','falled.'],3,['fell.','fall.','fallen.'],'past_irr');
+
+/* ---------------- 2A Linking verbs ---------------- */
+m('2A','Are you OK? You look ___ stressed.',['a bit','like a bit','as if a bit'],'link_adj');
+m('2A','You look ___ you’ve seen a ghost!',['as if','as','so'],'link_asif');
+m('2A','That chocolate cake looks ___.',['nice','like nice','nicely'],'link_adj');
+m('2A','She looks ___ a model!',['like','as','as if'],'link_like');
+m('2A','He sounded ___ he might cry.',['as if','as','so'],'link_asif');
+m('2A','It tastes a bit ___ chicken.',['like','as','as if'],'link_like');
+m('2A','Is Julie OK? She sounded ___ when I spoke to her.',['disappointed','disappointedly','like disappointed'],'link_adj');
+m('2A','Is Mike all right? He seems a bit ___.',['down','downly','like down'],'link_adj');
+m('2A','This soup smells ___. What’s in it?',['strange','strangely','like strange'],'link_adj');
+m('2A','A: I lost my bag and missed the train.  B: That sounds ___ a nightmare!',['like','as','as if'],'link_like');
+m('2A','Hi! You look ___ you’re in a very good mood.',['as if','as','so'],'link_asif');
+m('2A','Have you seen Ana? She looked so ___ when I saw her last!',['relaxed','relaxedly','like relaxed'],'link_adj');
+f('2A',['She sounded','like quite upset','the last time I spoke to her.'],1,['quite upset','as quite upset','quite upsetly'],'link_adj');
+f('2A',['Do you think','this dress makes me','look like fat?'],2,['look fat?','look as fat?','look fatly?'],'link_adj');
+f('2A',['Don’t eat that.','It tastes','really disgustingly.'],2,['really disgusting.','like really disgusting.','really as disgusting.'],'link_adj');
+f('2A',['You still look a bit confusing.','Shall I explain it again?'],0,['You still look a bit confused.','You still look like a bit confused.','You still look a bit confusedly.'],'link_adj');
+
+/* ---------------- 2B Present simple & continuous ---------------- */
+m('2B','I’m annoyed with him. He still ___ me money.',['owes','is owing','owing'],'ps_state');
+m('2B','I ___ to a local cycling club.',['belong','am belonging','belonging'],'ps_state');
+m('2B','I’m not a tea drinker. I ___ coffee.',['prefer','am preferring','preferring'],'ps_state');
+m('2B','Excuse me, ___ you need any help?',['do','are','is'],'ps_state');
+m('2B','I ___ what you mean.',['know','am knowing','knowing'],'ps_state');
+m('2B','This bag ___ to my sister.',['belongs','is belonging','belong'],'ps_state');
+m('2B','Look! It ___ again.',['’s raining','rains','rain'],'pc_now');
+m('2B','Can you phone back later? I ___ dinner.',['’m having','have','has'],'pc_now');
+m('2B','A: What’s your sister doing these days?  B: She graduated last year, and now she ___ a Master’s.',['’s doing','does','do'],'pc_now');
+m('2B','How ___ your course going? Are you still enjoying it?',['is','does','are'],'pc_form');
+m('2B','Don’t worry about him. He’s in a bad mood. He ___ like this sometimes.',['gets','is getting','get'],'ps_habit');
+m('2B','Ignore him. He’s just ___ silly.',['being','be','been'],'pc_form');
+f('2B',['I’m annoyed with him.','He’s still owing','me money.'],1,['He still owes','He’s still owe','He still owing'],'ps_state');
+f('2B',['I’m not a tea drinker.','I’m preferring','coffee.'],1,['I prefer','I’m prefer','I preferring'],'ps_state');
+f('2B',['I love cycling.','I’m belonging','to a local club.'],1,['I belong','I’m belong','I belonging'],'ps_state');
+f('2B',['Sorry, I can’t talk now.','I drive.','I’ll call you later.'],1,['I’m driving.','I’m drive.','I driving.'],'pc_now');
+
+/* ---------------- 3A Future plans ---------------- */
+m('3A','We’re thinking of ___ to Cuba in April.',['going','go','to go'],'fut_think');
+m('3A','I might ___ to work right through the summer.',['have','having','to have'],'fut_modal');
+m('3A','A: I have to go to a meeting later, so I can’t drive you to the hospital.  B: Don’t worry. I ___ the bus instead.',['’ll take','take','took'],'fut_will');
+m('3A','We’ll probably ___ a car to do some off-road driving.',['hire','to hire','hiring'],'fut_modal');
+m('3A','Where ___ you going to stay?',['are','do','will'],'fut_q');
+m('3A','What ___ you doing this afternoon?',['are','do','will'],'fut_q');
+m('3A','My dad probably ___ coming with us. It depends how much work he has.',['isn’t','won’t','doesn’t'],'fut_prob');
+m('3A','We ___ go on holiday this year. We haven’t decided yet.',['might not','might not to','don’t might'],'fut_modal');
+m('3A','I’m not sure, but I’ll ___ go out later.',['probably','probable','probably to'],'fut_modal');
+m('3A','A: Are you going away this summer?  B: I don’t know. It ___ on how much money I have.',['depends','depending','is depend'],'It depends on … = it is not decided yet.');
+f('3A',['I’m thinking','of go','to China.'],1,['of going','of to go','of went'],'fut_think');
+f('3A',['We','might to go','camping.'],1,['might go','might going','might went'],'fut_modal');
+f('3A',['Don’t worry.','I take','you to the station.'],1,['I’ll take','I taking','I’ll taking'],'fut_will');
+
+/* ---------------- 3B Present perfect & past simple ---------------- */
+g('3B','I ___ to Pompeii last year.','go','went','ps_time');
+g('3B','Have you ever ___ snake?','eat','eaten','pp_exp');
+g('3B','We ___ that film last night.','see','saw','ps_time');
+g('3B','Has she ever ___ abroad?','live','lived','pp_exp');
+g('3B','About 500 years ago, Isfahan ___ the capital of Persia.','be','was','ps_time');
+g('3B','He ___ me about ten minutes ago.','ring','rang','ps_time');
+g('3B','Have you ever ___ a parachute jump?','do','done','pp_exp');
+g('3B','I first ___ to Shanghai in 2002.','go','went','ps_time');
+m('3B','A: Have you been to the new market yet?  B: Yes, I ___ shopping there yesterday.',['went','’ve been','’ve gone'],'ps_time');
+m('3B','A: Have you been to Seoul?  B: No, but I ___ there next week.',['’m going','went','’ve gone'],'Next week is the future, so not the present perfect or past simple.');
+m('3B','I’ve been to Peru five or six times ___.',['now','ago','last year'],'pp_now');
+m('3B','A: Have you read it?  B: No, but it’s supposed ___ really good.',['to be','be','being'],'pp_supposed');
+m('3B','A: Have you ever been to Japan?  B: No, ___. I’d love to go, though.',['never','ever','already'],'pp_never');
+m('3B','A: Have you ever been to Egypt?  B: Yes, I ___ there a few years ago on business.',['went','’ve been','go'],'ps_time');
+m('3B','I ___ to several countries in Europe, so I’m used to travelling.',['’ve been','went ago','was being'],'pp_exp');
+f('3B',['A: Have you seen the musical?','B: No, I haven’t,','but it’s supposed to good.'],2,['but it’s supposed to be good.','but it supposes to be good.','but it’s supposing good.'],'pp_supposed');
+f('3B',['I','have been to Japan in 2015,','when I was at university.'],1,['went to Japan in 2015,','have gone to Japan in 2015,','am going to Japan in 2015,'],'ps_time');
+
+/* ---------------- 4A Habit and frequency ---------------- */
+f('4A',['A: Do you ever go swimming?','B: No, hardly never.','I don’t really like it.'],1,['B: No, hardly ever.','B: No, hardly always.','B: No, hardly sometimes.'],'freq_ever');
+f('4A',['A: How often do you go out?','B: Not much often.','I’m very busy with my studies.'],1,['B: Not very often.','B: Not many often.','B: Not much oftenly.'],'freq_that');
+f('4A',['A: Do you go to the gym?','B: Yeah, basically','once a two weeks.'],2,['once every two weeks.','once the two weeks.','once two weeks every.'],'freq_every');
+f('4A',['Sorry, I can’t.','Always I go','to my art class on Tuesdays.'],1,['I always go','I go always','I’m always go'],'freq_pos');
+f('4A',['A: Do you go walking much?','B: Whenever','I will get','the chance.'],2,['I get','I’ll get','I getting'],'freq_whenever');
+f('4A',['A: Do you go to the gym a lot?','B: Not as much','how I should.'],2,['as I should.','that I should.','like I should.'],'freq_much');
+f('4A',['A: Do you do much sport?','B: Not as much','as I used.','I had a foot injury.'],2,['as I used to.','as I use.','as I using.'],'freq_much');
+m('4A','A: Do you go swimming a lot?  B: Yeah, nearly ___ day, unless I’m really busy.',['every','any','whole'],'freq_every');
+m('4A','A: Do you eat out a lot?  B: Not as much as we ___ to.',['used','use','using'],'freq_much');
+m('4A','A: So do you read much?  B: Yeah, ___ the time – at least a book a week.',['all','every','whole'],'freq_all');
+m('4A','A: How often do you play games on the computer?  B: Not ___ often, actually. I don’t have time.',['that','such','much'],'freq_that');
+m('4A','A: Do you ever try to read in English?  B: Yeah, ___ I get the chance.',['whenever','however','whatever'],'freq_whenever');
+m('4A','When I was a kid, we ___ go to Blackpool for our summer holidays.',['used to','use to','were used to'],'freq_used');
+m('4A','I ___ watch TV. I just don’t have time.',['never','ever','don’t never'],'freq_ever');
+m('4A','I go there once ___ two or three months.',['every','all','each of'],'freq_every');
+m('4A','I didn’t ___ to like vegetables, but now I love them.',['use','uses','using'],'freq_used');
+m('4A','We ___ go to that restaurant. Let’s go somewhere different.',['always','ever','are always'],'freq_pos');
+
+/* ---------------- 4B Duration ---------------- */
+m('4B','How long ___ you known each other?',['have','are','do'],'dur_state');
+m('4B','How long have you ___ judo?',['been doing','doing','did'],'dur_ppc');
+m('4B','I’ve been really into martial arts ___ I went to Japan.',['ever since','for','during'],'dur_since');
+m('4B','We’ve had this car ___ ten years.',['for','since','during'],'dur_for');
+m('4B','I’ve lived here ___ 2015.',['since','for','from'],'dur_since');
+m('4B','I waited for the plane ___ two hours and then they cancelled it.',['for','during','since'],'dur_during');
+m('4B','I haven’t had any work ___ leaving my last job.',['since','from','for'],'dur_since');
+m('4B','I went to university ___ 2010 till 2014.',['from','since','for'],'dur_from');
+m('4B','A: I ran in a team when I was younger.  B: How long ___ that?',['did you do','have you been doing','are you doing'],'dur_ps');
+m('4B','I’m so sorry I’m late! How long ___ you been waiting?',['have','are','did'],'dur_ppc');
+m('4B','I played tennis for years until I ___ my knee.',['injured','have injured','’ve been injuring'],'dur_ps');
+m('4B','I’ve been ___ English for six years now.',['learning','learn','learnt'],'dur_ppc');
+g('4B','He’s really good at the piano. He ___ since he was six.','play',['has been playing','has played'],'dur_ppc');
+g('4B','My parents ___ married for thirty years. Their anniversary is on Saturday.','be',['have been'],'dur_state');
+g('4B','How long have you ___ each other? Since school?','know','known','dur_state');
+f('4B',['You two are such good friends.','How long are you knowing','each other?'],1,['How long have you known','How long do you know','How long are you know'],'dur_state');
+f('4B',['I’ve been doing these exercises','during','three years.'],1,['for','since','from'],'dur_for');
+f('4B',['My grandparents','have been married','since fifty years.'],2,['for fifty years.','during fifty years.','from fifty years.'],'dur_for');
+f('4B',['I haven’t had any work','from leaving my last job.'],1,['since leaving my last job.','for leaving my last job.','during leaving my last job.'],'dur_since');
+
+/* ===================== OUTCOMES INTERMEDIATE · VOCABULARY & CONVERSATION (Units 1–4) ===================== */
+
+const VPOINTS = [
+  { id:'V1A', code:'1A', unit:1, title:'Talking about people', sub:'jobs, workplaces, family, interests' },
+  { id:'V1B', code:'1B', unit:1, title:'Talking about languages', sub:'accent, get by, pick it up, fluently' },
+  { id:'V2A', code:'2A', unit:2, title:'Feelings', sub:'exhausted, furious, guilty, fed up' },
+  { id:'V2B', code:'2B', unit:2, title:'-ed / -ing adjectives', sub:'bored / boring, shocked / shocking' },
+  { id:'V2C', code:'2C', unit:2, title:'Responding to news', sub:'Congratulations! What a pain! That’s a relief!' },
+  { id:'V3A', code:'3A', unit:3, title:'Places of interest', sub:'ruins, stalls, along the river, out of town' },
+  { id:'V3B', code:'3B', unit:3, title:'Suggestions', sub:'Can you recommend …? How about …?' },
+  { id:'V3C', code:'3C', unit:3, title:'Weather', sub:'pour down, chilly, clear up, humid' },
+  { id:'V4A', code:'4A', unit:4, title:'Free-time activities', sub:'go sailing, go for a run, have an early night' },
+  { id:'V4B', code:'4B', unit:4, title:'Injuries and problems', sub:'pulled a muscle, stiff, unfit' },
+  { id:'V4C', code:'4C', unit:4, title:'Music and tastes', sub:'catchy, bland, uplifting, What are you into?' }
+];
+const VUNITS = { 1:'First class', 2:'Feelings', 3:'Time off', 4:'Interests' };
+
+Object.assign(GAP_INS, { 'V2B':'Make an adjective from the verb in brackets (-ed or -ing).' });
+
+Object.assign(RULES, {
+  people:'Talking about people: job (a translator), workplace (an office), studies (Law), family (an only child), marital status (single), interests (reading).',
+  lang:'Languages: get by = know enough to manage. pick it up = learn without classes. struggle with = find it very difficult. express yourself = say what you think. master = learn completely. accent = how you sound.',
+  edIng:'-ed adjectives describe how people feel (I’m bored). -ing adjectives describe the thing that causes the feeling (The film was boring).',
+  resp:'Responses: Congratulations! (good news about someone’s success). What a shame! (disappointing news). What a pain! (annoying problem). That’s a relief! (a worry has gone). Oh no! (bad news). Wow! (surprise).',
+  places:'Places of interest: ruins (what is left of old buildings), walls (round an old city), stalls (tables in a market), gallery (art), mosque (Muslim place of prayer), theme park (rides), nightlife (bars and clubs).',
+  placePrep:'Location phrases: ten miles out of town, walk along the river, in the east of the city, down by the lake, further along the coast, all over the country.',
+  sugg:'Suggestions: I’m thinking of … Can you recommend anywhere? You could try … How about going to …? I’m not really a big fan of … That sounds better.',
+  weather:'Weather: pour down (rain a lot), boiling hot, freezing, chilly (a bit cold), humid (hot and wet air), clear up (get better), drop to minus 10, reach 36°.',
+  freeGo:'go + -ing (go sailing, go climbing). go to + place / event (go to the theatre). go for + a / an + activity (go for a run, go for a drive).',
+  freeOther:'have an early night, have a lesson, do some baking, do a bit of exercise, take it easy, stay in.',
+  injury:'Injuries: bang your head, break your leg, pull a muscle, injure your back, lose confidence. stiff = hard to move. unfit = not in good physical condition.',
+  music:'Music: catchy, repetitive, heavy, soft, sentimental, commercial, moving, bland, uplifting, depressing.',
+  tastes:'Talking about tastes: Do you listen to music much? What kind of music are you into? All sorts really. Anyone in particular? Have you heard anything good recently?'
+});
+
+/* ---------------- 1A Talking about people ---------------- */
+SORTS.push({ id:'V1A-work', bins:['Job','Workplace','Subject studied'], rules:['people','people','people'], cards:[
+  ['a translator',0,'V1A'], ['a civil servant',0,'V1A'], ['a software engineer',0,'V1A'], ['a nurse',0,'V1A'], ['an accountant',0,'V1A'],
+  ['an office',1,'V1A'], ['a warehouse',1,'V1A'], ['a factory',1,'V1A'], ['a hospital',1,'V1A'], ['a bank',1,'V1A'],
+  ['Law',2,'V1A'], ['Medicine',2,'V1A'], ['Economics',2,'V1A'], ['History',2,'V1A'], ['Engineering',2,'V1A']
+]});
+SORTS.push({ id:'V1A-life', bins:['Family','Married or not','Interests'], rules:['people','people','people'], cards:[
+  ['an only child',0,'V1A'], ['a twin',0,'V1A'], ['the youngest of six kids',0,'V1A'], ['the oldest of three',0,'V1A'],
+  ['married',1,'V1A'], ['single',1,'V1A'], ['separated',1,'V1A'], ['divorced',1,'V1A'],
+  ['reading',2,'V1A'], ['sport',2,'V1A'], ['travelling',2,'V1A'], ['cooking',2,'V1A']
+]});
+m('V1A','My sister is ___ child. She doesn’t have any brothers or sisters.',['an only','a single','a twin'],'people');
+m('V1A','My brother and I were born on the same day. He’s my ___.',['twin','single','only child'],'people');
+m('V1A','My parents are still married, but they’re ___ at the moment. They don’t live together.',['separated','single','only'],'people');
+m('V1A','My sister’s doing a degree ___ Law at the moment.',['in','of','at'],'people');
+m('V1A','My parents are really ___ travelling. They go abroad three times a year.',['into','on','at'],'into = interested in, like a lot.');
+
+/* ---------------- 1B Talking about languages ---------------- */
+m('V1B','I’m not very ___, but I can hold a conversation and make myself understood.',['accurate','fluently','accent'],'lang');
+m('V1B','I know the basics – enough to ___ when I’m travelling there.',['get by','master','struggle'],'lang');
+m('V1B','I really ___ with French when I was at school, so I just gave up.',['struggled','picked it up','mastered'],'lang');
+m('V1B','I get frustrated when I can’t ___ myself.',['express','get by','master'],'lang');
+m('V1B','I never went to class. I just ___ from talking to people.',['picked it up','mastered','struggled'],'lang');
+m('V1B','I’m a bit embarrassed to speak sometimes because I know I have a strong ___.',['accent','accurate','fluent'],'lang');
+m('V1B','I grew up bilingual, so I speak Spanish and Japanese ___.',['fluently','accurate','accent'],'lang');
+m('V1B','I’m not interested in ___ the language. I just want to be able to read it for my job.',['mastering','getting by','struggling'],'lang');
+m('V1B','She grew up speaking two languages at home. She’s ___.',['bilingual','fluently','accurate'],'lang');
+MATCHES.push({ id:'V1B-coll', p:'V1B', title:'Language phrases', pairs:[
+  ['hold','a conversation'], ['make myself','understood'], ['pick it up','as you go along'], ['get','by']
+]});
+
+/* ---------------- 2A Feelings ---------------- */
+m('V2A','We left at six in the morning and didn’t get back till midnight. I was ___.',['exhausted','furious','guilty'],'Exhausted = very tired.');
+m('V2A','You must be really ___ with the results. They’re great.',['pleased','guilty','fed up'],'Pleased = happy.');
+m('V2A','She was absolutely ___ when she saw the mess they had made.',['furious','pleased','exhausted'],'Furious = very angry.');
+m('V2A','I’m under so much pressure at work. I’m really ___ about everything.',['stressed','pleased','exhausted'],'Stressed = worried because of pressure.');
+m('V2A','His dog died last night. He was very ___ when I spoke to him.',['upset','pleased','relaxed'],'Upset = sad and worried.');
+m('V2A','I’m so sorry. I feel really ___ about leaving you with all the work to do.',['guilty','pleased','fed up'],'Guilty = bad because you did something wrong.');
+m('V2A','Ask her now. She looks like she’s in a good ___. She might say yes.',['mood','feeling','down'],'in a good / bad mood');
+m('V2A','I’m ___ with this weather. It’s so hot you can’t do anything. I’ve had enough of it!',['fed up','pleased','in a good mood'],'fed up (with) = annoyed, had enough.');
+m('V2A','I didn’t expect the film to be so good. I was ___ surprised.',['pleasantly','pleasant','please'],'pleasantly surprised = surprised in a good way.');
+m('V2A','It was good to see her happy and enjoying herself. I know she’s been a bit ___ lately.',['down','up','mood'],'a bit down = a bit sad.');
+
+/* ---------------- 2B -ed / -ing adjectives ---------------- */
+m('V2B','Can you explain it again? I’m still a bit ___.',['confused','confusing'],'edIng');
+m('V2B','The instructions for this camera are really ___.',['confusing','confused'],'edIng');
+m('V2B','He has a really ___ habit of repeating the same stories again and again.',['annoying','annoyed'],'edIng');
+m('V2B','I’m a bit ___ that he hasn’t phoned me. He promised to!',['annoyed','annoying'],'edIng');
+m('V2B','He’s been ___ for a while, but he refuses to try counselling.',['depressed','depressing'],'edIng');
+m('V2B','This weather’s so ___. It’s so cold and wet!',['depressing','depressed'],'edIng');
+m('V2B','I found the violence in the film quite ___, to be honest.',['shocking','shocked'],'edIng');
+m('V2B','I was really ___ to see so many homeless people on the streets.',['shocked','shocking'],'edIng');
+m('V2B','I’m ___. Can’t we go out somewhere?',['bored','boring'],'edIng');
+m('V2B','I find her quite ___. All she ever talks about is her children!',['boring','bored'],'edIng');
+m('V2B','Obviously, I’m a bit ___ that I didn’t get the job.',['disappointed','disappointing'],'edIng');
+m('V2B','I loved her last film, but to be honest I found this one quite ___.',['disappointing','disappointed'],'edIng');
+g('V2B','I didn’t understand the grammar at all. I found it so ___.','confuse','confusing','edIng');
+g('V2B','We were quite ___ with the results of the research.','disappoint','disappointed','edIng');
+g('V2B','Did you see the news yesterday? It was quite ___.','shock','shocking','edIng');
+g('V2B','My flight was overnight and I didn’t sleep at all, so I’m ___.','exhaust','exhausted','edIng');
+g('V2B','The museum was so ___. I nearly fell asleep.','bore','boring','edIng');
+g('V2B','I’m really ___ in photography.','interest','interested','edIng');
+
+/* ---------------- 2C Responding to news ---------------- */
+m('V2C','A: I can’t drink at the moment. I’m pregnant.  B: Really? ___! When is the baby due?',['Congratulations','What a shame','What a pain'],'resp');
+m('V2C','A: I’m going to Canada to study English.  B: ___! That’s great! How long are you going for?',['Wow','Oh no','What a shame'],'resp');
+m('V2C','A: I’m afraid I can’t meet you tonight.  B: Oh, what a ___! Are you sure?',['shame','relief','wow'],'resp');
+m('V2C','A: My brother’s not very well.  B: ___! I’m really sorry. I hope it’s not too serious.',['Oh no','Wow','Congratulations'],'resp');
+m('V2C','A: I’ve lost my wallet.  B: Oh no! What a ___! Did it have much in it?',['pain','relief','congratulations'],'resp');
+m('V2C','A: I’ve found my wallet!  B: Phew, that’s a ___! Where was it?',['relief','pain','shame'],'resp');
+m('V2C','A: My sister’s in hospital.  B: Oh no! That sounds ___. Is it very serious?',['awful','great','lovely'],'That sounds awful / terrible! = a response to bad news.');
+MATCHES.push({ id:'V2C-news', p:'V2C', title:'News and responses', pairs:[
+  ['I passed my driving test!','Congratulations!'], ['I’ve found my keys!','Phew, that’s a relief!'], ['The car broke down again.','Oh no! What a pain!'], ['I’m going to Japan next month!','Wow! Lucky you! Have you been before?']
+]});
+
+/* ---------------- 3A Places of interest ---------------- */
+m('V3A','There’s a ___ about a mile out of town, where you can hire a boat and go fishing.',['lake','gallery','mosque'],'places');
+m('V3A','There’s an old castle above the city. You can walk along the ___ and go to the top of the tower.',['walls','stalls','nightlife'],'places');
+m('V3A','There’s a street market in the east of the city with ___ selling everything from antiques to apples.',['stalls','walls','ruins'],'places');
+m('V3A','There’s an old royal ___ down by the river. It reopened recently after being restored.',['palace','stall','nightlife'],'places');
+m('V3A','There’s a really fun ___ further along the coast. They’ve got some great rides there.',['theme park','gallery','old town'],'places');
+m('V3A','There are Roman ___ all over this part of the country.',['ruins','stalls','nightlife'],'places');
+m('V3A','There’s a beautiful ___ near here. You’ll hear the call to prayer in the morning.',['mosque','theme park','gallery'],'places');
+m('V3A','They built a new modern art ___ recently. It was designed by a famous Brazilian architect.',['gallery','ruins','walls'],'places');
+m('V3A','The ___ is great – there are lots of bars and clubs that stay open till late.',['nightlife','ruins','walls'],'places');
+m('V3A','It’s about ten miles ___ of town.',['out','along','down'],'placePrep');
+m('V3A','You can walk ___ the river all the way to the old bridge.',['along','out','over'],'placePrep');
+m('V3A','It’s ___ by the lake, about five minutes from here.',['down','at','in'],'placePrep');
+m('V3A','You find these old churches all ___ this part of the country.',['over','in','out'],'placePrep');
+m('V3A','The beach is further ___ the coast.',['along','out','over'],'placePrep');
+
+/* ---------------- 3B Suggestions ---------------- */
+m('V3B','I’m thinking ___ doing some sightseeing today.',['of','to','for'],'sugg');
+m('V3B','Can you ___ anywhere good to go?',['recommend','tell','say'],'sugg');
+m('V3B','It depends ___ what you like.',['on','of','from'],'sugg');
+m('V3B','To be honest, I’m not really a big ___ of museums.',['fan','like','interest'],'sugg');
+m('V3B','Well, in that case, you ___ try Kazimierz. It’s got a great atmosphere.',['could','would','did'],'sugg');
+m('V3B','In that case, how about ___ to the Roman ruins down by the lake?',['going','go','to go'],'sugg');
+m('V3B','Oh, that ___ better. Are they expensive to get into?',['sounds','hears','listens'],'sugg');
+m('V3B','A: How about Portobello Road? It’s a big street market.  B: Oh, that sounds great. I ___ that kind of thing.',['love','am loving','loving'],'sugg');
+MATCHES.push({ id:'V3B-conv', p:'V3B', title:'A conversation in order', pairs:[
+  ['I’m thinking of doing some shopping today. Can you recommend anywhere?','Well, you could try Oxford Street.'],
+  ['To be honest, I’m not really a big fan of department stores.','Oh, OK. In that case, how about Portobello Road?'],
+  ['Oh, that sounds great. Is it easy to get to?','Yes, very. I’ll show you on the map.'],
+  ['When is the market open?','Every day, but Saturday is the best day to go.']
+]});
+
+/* ---------------- 3C Weather ---------------- */
+m('V3C','Apparently, it’s going to ___ down tomorrow, so I’ll stay at home and keep out of the rain!',['pour','fall','drop'],'weather');
+m('V3C','It’s ___ hot! It’s nearly 40 degrees.',['boiling','boiled','freezing'],'weather');
+m('V3C','It might get a bit ___ at night, so take a jumper.',['chilly','humid','boiling'],'weather');
+m('V3C','It’s grey and rainy today, but they said it might ___ up later.',['clear','pour','drop'],'weather');
+m('V3C','It’s going to be freezing tonight. It might ___ to minus 10.',['drop','pour','clear'],'weather');
+m('V3C','It’s hot and ___ here – the air feels really wet.',['humid','chilly','freezing'],'weather');
+m('V3C','It’ll be boiling hot all week. On Tuesday it might ___ 36°.',['reach','drop','clear'],'weather');
+m('V3C','What’s the ___ for tomorrow? Is it going to rain?',['forecast','weathers','climate'],'weather');
+m('V3C','It’s going to be really ___, so we should take down the parasol or it’ll blow away.',['windy','humid','chilly'],'weather');
+m('V3C','It’s grey and ___ again today. I hate winter.',['miserable','boiling','sunny'],'weather');
+
+/* ---------------- 4A Free-time activities ---------------- */
+SORTS.push({ id:'V4A-go', bins:['I went …','I went to …','I went for …'], rules:['freeGo','freeGo','freeGo'], cards:[
+  ['sailing',0,'V4A'], ['climbing',0,'V4A'], ['fishing',0,'V4A'], ['shopping',0,'V4A'], ['skiing',0,'V4A'],
+  ['the theatre',1,'V4A'], ['the cinema',1,'V4A'], ['a friend’s place',1,'V4A'], ['the gym',1,'V4A'], ['a concert',1,'V4A'],
+  ['a run',2,'V4A'], ['a drive',2,'V4A'], ['a walk',2,'V4A'], ['a swim',2,'V4A'], ['a coffee',2,'V4A']
+]});
+m('V4A','I ___ some baking for my sister’s birthday party.',['did','went','had'],'freeOther');
+m('V4A','I was really tired, so I ___ an early night.',['had','did','went'],'freeOther');
+m('V4A','I didn’t go out. I just stayed in and ___ it easy.',['took','had','did'],'freeOther');
+m('V4A','I went ___ a run round the block this morning.',['for','to','at'],'freeGo');
+m('V4A','I went ___ the theatre and saw an amazing play.',['to','for','at'],'freeGo');
+m('V4A','I went ___ a drive to the beach with my girlfriend on Friday.',['for','to','at'],'freeGo');
+m('V4A','I ___ a bit of exercise before breakfast.',['did','went','made'],'freeOther');
+m('V4A','I ___ cards with some friends until about two in the morning.',['played','did','went'],'freeOther');
+
+/* ---------------- 4B Injuries and problems ---------------- */
+m('V4B','I fell off my bike and ___ my head. Luckily, I was wearing a helmet.',['banged','pulled','stiff'],'injury');
+m('V4B','I was playing football and ___ my leg. It was in plaster for six weeks.',['broke','pulled','banged'],'injury');
+m('V4B','I didn’t really warm up before we started playing, so I ___ a muscle in my leg.',['pulled','broke','banged'],'injury');
+m('V4B','I haven’t done any exercise for years. I’m so ___! I had to stop running after ten minutes.',['unfit','injury','confidence'],'injury');
+m('V4B','We did a twenty-mile walk yesterday, so my legs are really ___ this morning.',['stiff','unfit','injury'],'injury');
+m('V4B','He beat me 6–0, 6–0. I lost a lot of ___ after that.',['confidence','injury','stiff'],'injury');
+m('V4B','I got a really bad knee ___ a few years ago and it’s never really recovered.',['injury','injured','stiff'],'injury');
+m('V4B','I ___ my back skating. I slipped and fell backwards.',['injured','injury','unfit'],'injury');
+
+/* ---------------- 4C Music and tastes ---------------- */
+m('V4C','If a song is ___, you quickly want to sing it and can’t stop.',['catchy','bland','soft'],'music');
+m('V4C','If music is ___, it has the same boom boom beat all the way through.',['repetitive','moving','uplifting'],'music');
+m('V4C','If a song is ___, it’s very loud and has a strong beat.',['heavy','soft','sentimental'],'music');
+m('V4C','If a song is ___, it’s quiet and relaxing to listen to.',['soft','heavy','repetitive'],'music');
+m('V4C','If the lyrics are ___, they are too romantic or emotional in a way that feels false.',['sentimental','uplifting','heavy'],'music');
+m('V4C','If we say a song is very ___, it’s a negative way of saying it was written to sell a lot.',['commercial','moving','soft'],'music');
+m('V4C','If music is ___, it makes you cry.',['moving','catchy','commercial'],'music');
+m('V4C','If music is ___, it’s boring.',['bland','uplifting','heavy'],'music');
+m('V4C','If music is ___, it makes you happy or hopeful.',['uplifting','depressing','bland'],'music');
+m('V4C','What kind of music are you ___?',['into','in','on'],'tastes');
+m('V4C','Do you listen to music ___?',['much','many','lot'],'tastes');
+m('V4C','A: What kind of music are you into?  B: All ___ really, but mainly pop and R&B.',['sorts','sort','kind'],'tastes');
+m('V4C','A: I love jazz.  B: Oh right. Anyone in ___?',['particular','special','specific'],'tastes');
+m('V4C','So have you heard anything good ___?',['recently','soon','ago'],'tastes');
+m('V4C','Erm, I don’t know … Girls Rock, Soul Train, stuff ___ that.',['like','as','so'],'tastes');
+MATCHES.push({ id:'V4C-adj1', p:'V4C', title:'Describing music', pairs:[
+  ['catchy','you want to sing it and can’t stop'], ['bland','boring'], ['moving','it makes you cry'], ['heavy','very loud with a strong beat']
+]});
+MATCHES.push({ id:'V4C-adj2', p:'V4C', title:'Describing music', pairs:[
+  ['uplifting','it makes you happy or hopeful'], ['repetitive','the same beat all the way through'], ['commercial','written just to sell a lot'], ['soft','quiet and relaxing']
+]});
+
+[['g',GAP],['m',MC],['f',FAULT]].forEach(([k,arr]) => { const c = {}; arr.forEach(it => { c[it.p] = (c[it.p]||0)+1; it.id = it.p + k + c[it.p]; it.k = k; }); });
+POINTS.forEach(p => { p.sec = 'G'; p.code = p.id; }); VPOINTS.forEach(p => { p.sec = 'V'; });
+const ALLP = [...POINTS, ...VPOINTS];
+
+/* ===================== UTILITIES ===================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const PT = Object.fromEntries(ALLP.map(p => [p.id, p]));
+const ruleText = r => RULES[r] || (r && r.includes(' ') ? r : '');
+const pct = (c, t) => t ? Math.round(100 * c / t) : 0;
+
+/* ===================== STORAGE (this device only) ===================== */
+const KEY = 'outcomesInt14.v1';
+function freshStore(){ return { v:1, xp:0, bestStreak:0, muted:false, answered:0, stats:{}, seen:{}, history:[], session:null }; }
+let store = (() => { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return Object.assign(freshStore(), s); } catch (e) {} return freshStore(); })();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+let SEC = store.lastSec === 'V' ? 'V' : 'G';
+const secPoints = (x = SEC) => ALLP.filter(p => p.sec === x);
+const THEME = {
+  G: { name:'Grammar', title:'The Grammar Observatory', eyebrow:'Grammar · Units 1–4', back:'Back to the sky', perfect:'Perfect sky – every star lit!', light:'Light up all five stars!', units:[1,2,3,4], unitNames: UNITS },
+  V: { name:'Vocabulary', title:'The Phrase Workshop', eyebrow:'Vocabulary & conversation · Units 1–4', back:'Back to the workshop', perfect:'Perfect – every gear is turning!', light:'Get all five gears turning!', units:[1,2,3,4], unitNames: VUNITS }
+};
+function setSection(x){ SEC = x; store.lastSec = x; save(); applyTheme(x); }
+function applyTheme(x){ document.body.dataset.theme = x === 'V' ? 'clock' : 'sky'; document.querySelector('meta[name=theme-color]').setAttribute('content', x === 'V' ? '#0c1117' : '#04151a'); Sky.setTheme(x === 'V' ? 'clock' : 'sky'); }
+function ensureSession(){ if (!store.session) store.session = { start: Date.now(), rounds: [], xp: 0 }; return store.session; }
+
+/* ===================== LEVELS & MASTERY ===================== */
+const LEVEL_NAMES = ['Stargazer','Moon Watcher','Comet Chaser','Planet Finder','Star Mapper','Nebula Navigator','Galaxy Guide','Constellation Keeper','Astronomer Royal','Master of the Skies'];
+const xpFor = L => 50 * L * (L - 1);
+function levelOf(xp){ let L = 1; while (xp >= xpFor(L + 1)) L++; return L; }
+const levelName = L => LEVEL_NAMES[Math.min(L, LEVEL_NAMES.length) - 1];
+function levelProgress(xp){ const L = levelOf(xp), a = xpFor(L), b = xpFor(L + 1); return { L, into: xp - a, need: b - a, frac: (xp - a) / (b - a) }; }
+function mastery(p){
+  const s = store.stats[p]; if (!s || !s.r.length) return 0;
+  const acc = s.r.reduce((a, b) => a + b, 0) / s.r.length;
+  return Math.max(0, Math.min(5, Math.floor(acc * 5 + 0.5), Math.floor(s.r.length / 4)));
+}
+function recentAcc(p){ const s = store.stats[p]; if (!s || !s.r.length) return null; return s.r.reduce((a, b) => a + b, 0) / s.r.length; }
+const starsHtml = n => '<span class="stars" aria-label="' + n + ' of 5 stars">' + [0,1,2,3,4].map(i => '<i class="' + (i < n ? 'on' : '') + '">★</i>').join('') + '</span>';
+
+/* ===================== ANSWER CHECKING ===================== */
+function canon(s){
+  s = String(s).toLowerCase()
+    .replace(/[‘’ʼ`´′]/g, "'")
+    .replace(/[“”"()]/g, ' ')
+    .replace(/[.!?,;:…]+/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+  s = s.replace(/\bwon't\b/g, 'will not').replace(/\bcan't\b/g, 'can not').replace(/\bcannot\b/g, 'can not').replace(/\bshan't\b/g, 'shall not')
+       .replace(/n't\b/g, ' not').replace(/'ll\b/g, ' will').replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have');
+  return s.replace(/\s+/g, ' ').trim();
+}
+const LOOSE = { dont:'do not', doesnt:'does not', didnt:'did not', wont:'will not', shouldnt:'should not', mustnt:'must not', isnt:'is not', arent:'are not', havent:'have not', hasnt:'has not', cant:'can not' };
+function loosen(s){ return s.split(' ').map(w => LOOSE[w] || w).join(' '); }
+function checkGap(it, raw){
+  const parts = it.t.split('___');
+  const prev = canon(parts[0]).split(' ').pop() || '';
+  const next = canon(parts[1] || '').split(' ')[0] || '';
+  const answers = it.a.map(canon);
+  const g = canon(raw);
+  const cands = new Set([g]);
+  if (it.pre) cands.add(canon(it.pre + raw.trim()));
+  const strip = s => {
+    const out = [s];
+    if (prev && s.startsWith(prev + ' ')) out.push(s.slice(prev.length + 1));
+    out.slice().forEach(x => { if (next && x.endsWith(' ' + next)) out.push(x.slice(0, -(next.length + 1))); });
+    return out;
+  };
+  [...cands].forEach(c => strip(c).forEach(x => cands.add(x)));
+  for (const c of cands) if (answers.includes(c)) return { ok: true };
+  for (const c of cands) if (answers.includes(loosen(c))) return { ok: true, note: 'Remember the apostrophe in short forms: don’t, won’t, doesn’t …' };
+  return { ok: false };
+}
+
+/* ===================== SOUND (generated, no files) ===================== */
+const Sfx = (() => {
+  let ctx = null;
+  function ac(){
+    if (!ctx){ const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; try { ctx = new C(); } catch (e) { return null; } }
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(f, at, dur, type = 'sine', vol = 0.14, slide = 0){
+    const c = ac(); if (!c || store.muted) return;
+    const t = c.currentTime + at, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(f * slide, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  return {
+    unlock(){ ac(); },
+    tap(){ tone(880, 0, 0.05, 'triangle', 0.05); },
+    correct(){ tone(784, 0, 0.16, 'triangle', 0.13); tone(1175, 0.08, 0.28, 'triangle', 0.12); },
+    wrong(){ tone(240, 0, 0.22, 'sine', 0.13, 0.75); },
+    streak(){ [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 0.07, 0.22, 'triangle', 0.11)); },
+    finish(){ [523, 659, 784].forEach((f, i) => tone(f, i * 0.11, 0.35, 'sine', 0.12)); },
+    perfect(){ [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, i * 0.09, 0.4, 'triangle', 0.11)); tone(2093, 0.5, 0.6, 'sine', 0.06); },
+    level(){ [392, 523, 659, 784].forEach((f, i) => tone(f, i * 0.12, 0.3, 'square', 0.05)); [1047, 1319, 1568].forEach(f => tone(f, 0.5, 0.9, 'triangle', 0.08)); }
+  };
+})();
+
+/* ===================== 3D SKY (Three.js, optional) ===================== */
+const Sky = (() => {
+  let T, R, S, C, field, planetGroup, planet, ring, moon, roundGroup, lineGeo, lineObj, tex, ok = false, mode = 'home', boost = 0, last = 0;
+  let theme = 'sky', gearGroup, gears = [], dust, deco;
+  const PAL = { sky: { bg: 0x04151a, idle: 0x8fd6c6, good: 0xff9fb2, bad: 0xff6b6b, spark: 0xffd3dc, line: 0x7ef0c8 }, clock: { bg: 0x0c1117, idle: 0x6f8aa3, good: 0x9fd2ff, bad: 0xff6a4d, spark: 0xd8ecff, line: 0x8cc4f0 } };
+  let nodes = [], bursts = [], planetTarget = new Float32Array([16, -24, -70]);
+  function glowTex(){
+    const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+    const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.22, 'rgba(255,255,255,.8)'); g.addColorStop(0.5, 'rgba(255,255,255,.16)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 64, 64); return new T.CanvasTexture(c);
+  }
+  function init(){
+    T = window.THREE; if (!T) return;
+    try {
+      R = new T.WebGLRenderer({ canvas: $('#sky'), antialias: false, powerPreference: 'low-power' });
+      R.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      S = new T.Scene(); S.background = new T.Color(0x060a1a);
+      C = new T.PerspectiveCamera(60, 1, 0.1, 2000);
+      tex = glowTex();
+      const N = 1300, pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++){
+        const u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, r = 380 + Math.random() * 420, s = Math.sqrt(1 - u * u);
+        pos[i*3] = r * s * Math.cos(th); pos[i*3+1] = r * u; pos[i*3+2] = r * s * Math.sin(th);
+        const k = Math.random(); const c = k < 0.12 ? [1, .85, .55] : k < 0.3 ? [.65, .72, 1] : [.92, .94, 1];
+        const b = 0.45 + Math.random() * 0.55; col[i*3] = c[0]*b; col[i*3+1] = c[1]*b; col[i*3+2] = c[2]*b;
+      }
+      const fg = new T.BufferGeometry(); fg.setAttribute('position', new T.BufferAttribute(pos, 3)); fg.setAttribute('color', new T.BufferAttribute(col, 3));
+      field = new T.Points(fg, new T.PointsMaterial({ size: 7, map: tex, vertexColors: true, transparent: true, depthWrite: false, blending: T.AdditiveBlending }));
+      S.add(field);
+      planetGroup = new T.Group();
+      planet = new T.Mesh(new T.IcosahedronGeometry(14, 1), new T.MeshStandardMaterial({ color: 0x2aa88e, flatShading: true, roughness: 0.85, metalness: 0.05 }));
+      ring = new T.Mesh(new T.RingGeometry(19, 27, 56), new T.MeshBasicMaterial({ color: 0xff9fb2, side: T.DoubleSide, transparent: true, opacity: 0.25, depthWrite: false }));
+      ring.rotation.x = Math.PI * 0.42; ring.rotation.y = 0.25;
+      moon = new T.Mesh(new T.IcosahedronGeometry(2.6, 0), new T.MeshStandardMaterial({ color: 0xd9dcff, flatShading: true, roughness: 1 }));
+      planetGroup.add(planet, ring, moon);
+      planetGroup.position.set(16, -24, -70);
+      S.add(planetGroup);
+      gearGroup = new T.Group();
+      const brass = new T.MeshStandardMaterial({ color: 0xaebdcb, metalness: 0.45, roughness: 0.38 });
+      const copper = new T.MeshStandardMaterial({ color: 0x6f8aa3, metalness: 0.45, roughness: 0.42 });
+      const dark = new T.MeshStandardMaterial({ color: 0x3e4c5a, metalness: 0.3, roughness: 0.6 });
+      const mk = (r, teeth, mat, x, y, z, dir, rx = 0) => {
+        const m = new T.Mesh(gearGeo(r, teeth, 2.2), mat); m.position.set(x, y, z); m.rotation.x = rx;
+        gearGroup.add(m); gears.push({ m, speed: dir / teeth }); return m;
+      };
+      // big + meshing small gear (pitch radius ~ r + tooth/2)
+      mk(15, 24, brass, 0, 0, 0, 1);
+      const sa = 2.4; mk(7.5, 12, copper, Math.cos(sa) * 24.6, Math.sin(sa) * 24.6, 0, -1);
+      mk(9, 16, dark, 10, -22, -6, -1);
+      gearGroup.position.set(14, -24, -70);
+      gearGroup.visible = false;
+      S.add(gearGroup);
+      const DN = 380, dpos = new Float32Array(DN * 3);
+      for (let i = 0; i < DN; i++){ dpos[i*3] = (Math.random() - 0.5) * 260; dpos[i*3+1] = (Math.random() - 0.5) * 220; dpos[i*3+2] = -60 - Math.random() * 160; }
+      const dg = new T.BufferGeometry(); dg.setAttribute('position', new T.BufferAttribute(dpos, 3));
+      dust = new T.Points(dg, new T.PointsMaterial({ size: 2.2, map: tex, color: 0x9fd2ff, transparent: true, opacity: 0.45, depthWrite: false, blending: T.AdditiveBlending }));
+      dust.visible = false; S.add(dust);
+      deco = planetGroup;
+      S.add(new T.AmbientLight(0x1e5a55, 0.9));
+      const dl = new T.DirectionalLight(0xffe0b0, 1.15); dl.position.set(-40, 30, 30); S.add(dl);
+      roundGroup = new T.Group(); S.add(roundGroup);
+      lineGeo = new T.BufferGeometry();
+      lineObj = new T.LineSegments(lineGeo, new T.LineBasicMaterial({ color: 0xf6c86b, transparent: true, opacity: 0.55, depthWrite: false }));
+      roundGroup.add(lineObj);
+      resize(); window.addEventListener('resize', resize);
+      ok = true; setTheme(theme); setMode(mode); requestAnimationFrame(loop);
+    } catch (e) { ok = false; }
+  }
+  function resize(){ if (!R) return; const w = innerWidth, h = innerHeight; R.setSize(w, h, false); C.aspect = w / h; C.updateProjectionMatrix(); if (nodes.length) layout(); }
+  function gearGeo(r, teeth, depth){
+    const sh = new T.Shape(), tooth = r * 0.16, N = teeth * 4;
+    for (let i = 0; i <= N; i++){
+      const a = i / N * Math.PI * 2, ph = i % 4, rr = (ph === 1 || ph === 2) ? r + tooth : r;
+      const x = Math.cos(a) * rr, y = Math.sin(a) * rr;
+      if (i === 0) sh.moveTo(x, y); else sh.lineTo(x, y);
+    }
+    const hole = new T.Path(); hole.absarc(0, 0, r * 0.22, 0, Math.PI * 2, true); sh.holes.push(hole);
+    if (teeth >= 12) for (let k = 0; k < 5; k++){ const a = k / 5 * Math.PI * 2, h = new T.Path(); h.absarc(Math.cos(a) * r * 0.58, Math.sin(a) * r * 0.58, r * 0.17, 0, Math.PI * 2, true); sh.holes.push(h); }
+    const g = new T.ExtrudeGeometry(sh, { depth, bevelEnabled: true, bevelThickness: 0.35, bevelSize: 0.3, bevelSegments: 1, curveSegments: 10 });
+    g.center(); return g;
+  }
+  function setTheme(t){
+    theme = t; if (!ok) return;
+    const P = PAL[t]; S.background.setHex(P.bg);
+    const clock = t === 'clock';
+    field.visible = !clock; planetGroup.visible = !clock; gearGroup.visible = clock; dust.visible = clock;
+    lineObj.material.color.setHex(P.line);
+    const old = deco; deco = clock ? gearGroup : planetGroup; if (old && old !== deco) deco.position.copy(old.position);
+    nodes.forEach(nd => { if (nd.state === 0) nd.sp.material.color.setHex(P.idle); });
+    setMode(mode);
+  }
+  function setMode(m){
+    mode = m; if (!ok) return;
+    roundGroup.visible = (m === 'game');
+    const portrait = innerWidth < innerHeight;
+    if (m === 'home') planetTarget.set([portrait ? (theme === 'clock' ? 20 : 14) : 30, portrait ? (theme === 'clock' ? -34 : -26) : -14, -70]);
+    else if (m === 'game') planetTarget.set([portrait ? 22 : 40, -48, -80]);
+    else planetTarget.set([portrait ? -12 : -30, -22, -75]);
+  }
+  function mkSprite(color, opacity, scale){
+    const sp = new T.Sprite(new T.SpriteMaterial({ map: tex, color, transparent: true, opacity, depthWrite: false, blending: T.AdditiveBlending }));
+    sp.scale.set(scale, scale, 1); return sp;
+  }
+  function layout(){
+    const n = nodes.length, z = -60, H = 2 * 60 * Math.tan(Math.PI / 6), W = H * C.aspect;
+    const gapPx = Math.max(innerHeight * 0.19, 120), yTop = H / 2 - (H * (60 + gapPx * 0.55) / innerHeight);
+    const spacing = Math.min(5.5, (W * 0.8) / Math.max(n - 1, 1));
+    nodes.forEach((nd, i) => { nd.sp.position.set((i - (n - 1) / 2) * spacing, yTop + Math.sin(i * 1.9) * Math.min(2.4, H * 0.03), z); });
+    updateLines();
+  }
+  function setRound(n){
+    if (!ok) return;
+    nodes.forEach(nd => roundGroup.remove(nd.sp)); nodes = [];
+    for (let i = 0; i < n; i++){ const sp = mkSprite(PAL[theme].idle, 0.6, 2.8); roundGroup.add(sp); nodes.push({ sp, state: 0, target: 2.8, pulse: 0, ph: Math.random() * 6 }); }
+    layout();
+  }
+  function updateLines(){
+    const pts = [];
+    for (let i = 0; i < nodes.length - 1; i++){
+      if (nodes[i].state === 1 && nodes[i+1].state === 1){ const a = nodes[i].sp.position, b = nodes[i+1].sp.position; pts.push(a.x, a.y, a.z, b.x, b.y, b.z); }
+    }
+    lineGeo.setAttribute('position', new T.BufferAttribute(new Float32Array(pts), 3)); lineGeo.computeBoundingSphere();
+  }
+  function burst(p, color, count = 34, speed = 0.35){
+    const pos = new Float32Array(count * 3), vel = [];
+    for (let i = 0; i < count; i++){ pos[i*3] = p.x; pos[i*3+1] = p.y; pos[i*3+2] = p.z; const a = Math.random() * Math.PI * 2, b = Math.random() * Math.PI - Math.PI / 2, v = speed * (0.4 + Math.random()); vel.push(Math.cos(a) * Math.cos(b) * v, Math.sin(b) * v, Math.sin(a) * Math.cos(b) * v * 0.4); }
+    const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(pos, 3));
+    const m = new T.PointsMaterial({ size: 1.4, map: tex, color, transparent: true, opacity: 1, depthWrite: false, blending: T.AdditiveBlending });
+    const pts = new T.Points(g, m); S.add(pts); bursts.push({ pts, vel, life: 1 });
+  }
+  function lightStar(i, good){
+    boost = Math.min(boost + (good ? 1 : 0.3), 4);
+    if (!ok || !nodes[i]) return;
+    const nd = nodes[i]; nd.state = good ? 1 : 2; nd.pulse = 1;
+    nd.sp.material.color.setHex(good ? PAL[theme].good : PAL[theme].bad); nd.sp.material.opacity = good ? 1 : 0.7; nd.target = good ? 5.2 : 3;
+    if (good) burst(nd.sp.position, PAL[theme].spark);
+    updateLines();
+  }
+  function complete(perfect){
+    if (!ok) return;
+    nodes.forEach((nd, k) => { if (nd.state === 1){ nd.pulse = 1.4; setTimeout(() => burst(nd.sp.position, PAL[theme].spark, 16, 0.25), k * 70); } });
+    if (perfect) celebrate();
+  }
+  function celebrate(){
+    if (!ok) return;
+    for (let k = 0; k < 6; k++) setTimeout(() => { const v = new T.Vector3((Math.random() - 0.5) * 40, (Math.random() - 0.1) * 30, -60); burst(v, theme === 'clock' ? pick([0xd8ecff, 0x8cc4f0, 0xffffff]) : pick([0xffd3dc, 0x3fd6b0, 0x8ee87a]), 50, 0.5); }, k * 160);
+  }
+  function loop(t){
+    requestAnimationFrame(loop);
+    if (document.hidden) return;
+    const dt = Math.min(50, t - (last || t)); last = t;
+    boost *= 0.97;
+    field.rotation.y += dt * 0.000012 * (1 + boost * 2.5); field.rotation.x = 0.15;
+    planet.rotation.y += dt * 0.00018; planet.rotation.x += dt * 0.00004;
+    const mt = t * 0.0004; moon.position.set(Math.cos(mt) * 30, Math.sin(mt) * 6, Math.sin(mt) * 30);
+    gears.forEach(gr => { gr.m.rotation.z += dt * 0.006 * gr.speed * (1 + boost * 3); });
+    if (dust.visible){ dust.rotation.z += dt * 0.000008; dust.position.y = Math.sin(t * 0.0002) * 2; }
+    const pp = deco.position; pp.x += (planetTarget[0] - pp.x) * 0.04; pp.y += (planetTarget[1] - pp.y) * 0.04; pp.z += (planetTarget[2] - pp.z) * 0.04;
+    C.position.x = Math.sin(t * 0.00007) * 1.5; C.position.y = Math.cos(t * 0.00005) * 1;
+    nodes.forEach(nd => {
+      nd.pulse *= 0.93;
+      const tw = nd.state === 1 ? 1 + 0.06 * Math.sin(t * 0.003 + nd.ph) : 1 + 0.12 * Math.sin(t * 0.002 + nd.ph);
+      const s = nd.target * tw * (1 + 0.5 * nd.pulse); nd.sp.scale.set(s, s, 1);
+    });
+    for (let b = bursts.length - 1; b >= 0; b--){
+      const B = bursts[b], arr = B.pts.geometry.attributes.position.array; B.life -= dt * 0.0011;
+      for (let i = 0; i < B.vel.length; i++) arr[i] += B.vel[i] * dt * 0.06;
+      B.pts.geometry.attributes.position.needsUpdate = true; B.pts.material.opacity = Math.max(0, B.life);
+      if (B.life <= 0){ S.remove(B.pts); B.pts.geometry.dispose(); B.pts.material.dispose(); bursts.splice(b, 1); }
+    }
+    R.render(S, C);
+  }
+  return { init, setMode, setTheme, setRound, lightStar, complete, celebrate };
+})();
+
+/* ===================== POOLS & MODES ===================== */
+const POOL = { g:{}, m:{}, f:{} };
+GAP.forEach(it => (POOL.g[it.p] = POOL.g[it.p] || []).push(it));
+MC.forEach(it => (POOL.m[it.p] = POOL.m[it.p] || []).push(it));
+FAULT.forEach(it => (POOL.f[it.p] = POOL.f[it.p] || []).push(it));
+const sortsFor = p => SORTS.filter(s => s.cards.some(c => c[2] === p));
+const matchesFor = p => MATCHES.filter(x => x.p === p);
+const mixPool = p => [...(POOL.g[p] || []), ...(POOL.m[p] || []), ...(POOL.f[p] || [])];
+
+const ICON = {
+  gap:'<svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M14.5 4.5l5 5L9 20H4v-5z"/></svg>',
+  mc:'<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="5" height="14" rx="2.5"/><rect x="9.5" y="6" width="5" height="14" rx="2.5"/><rect x="16.5" y="6" width="5" height="14" rx="2.5"/><path d="M12 3v1"/></svg>',
+  fault:'<svg viewBox="0 0 24 24"><path d="M3 12h5l2-5 4 10 2-5h5"/></svg>',
+  sort:'<svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="11" rx="2"/><path d="M5 18l-3 3M19 18l3 3M4 21h4M16 21h4"/></svg>',
+  match:'<svg viewBox="0 0 24 24"><path d="M3 7h7a3 3 0 0 1 0 6H3z"/><path d="M21 11h-7a3 3 0 0 0 0 6h7z"/></svg>',
+  mix:'<svg viewBox="0 0 24 24"><path d="M12 2l2.6 6.4L21 9l-5 4.5L17.5 21 12 17.3 6.5 21 8 13.5 3 9l6.4-.6z"/></svg>'
+};
+const MODES = {
+  gap:{ name:'Forge', desc:'Type the missing word or words.' },
+  mc:{ name:'Three Doors', desc:'Pick the right door. Quick answers earn bonus XP.' },
+  fault:{ name:'Fault Line', desc:'Find the mistake in the sentence, then fix it.' },
+  sort:{ name:'Split', desc:'Swipe or tap each card into the right group.' },
+  match:{ name:'Halves', desc:'Join the two halves of each sentence.' },
+  mix:{ name:'Star Mix', desc:'A bit of everything on this grammar point.' }
+};
+function modesFor(p){
+  const m = [];
+  if (POOL.g[p]) m.push('gap'); if (POOL.m[p]) m.push('mc'); if (POOL.f[p]) m.push('fault');
+  if (sortsFor(p).length) m.push('sort'); if (matchesFor(p).length) m.push('match');
+  m.push('mix'); return m;
+}
+function leastSeen(arr, n, idf){ return shuffle(arr).sort((a, b) => (store.seen[idf(a)] || 0) - (store.seen[idf(b)] || 0)).slice(0, n); }
+const markSeen = id => { store.seen[id] = Date.now(); };
+function weakScore(p){ const a = recentAcc(p); return a === null ? 0.6 : a; }
+function buildQueue(p, mode){
+  const K = { gap:'g', mc:'m', fault:'f' };
+  if (K[mode]) return leastSeen(POOL[K[mode]][p], 8, x => x.id).map(it => ({ k: it.k, it }));
+  if (mode === 'mix') return leastSeen(mixPool(p), 9, x => x.id).map(it => ({ k: it.k, it }));
+  if (mode === 'sort'){ const cards = []; sortsFor(p).forEach(s => s.cards.forEach((c, i) => cards.push({ k:'s', set:s, card:c, id:s.id + '#' + i }))); return leastSeen(cards, 10, x => x.id); }
+  if (mode === 'match') return leastSeen(matchesFor(p), 2, x => x.id).map(b => ({ k:'x', board:b, id:b.id }));
+  if (mode === 'all') return shuffle(secPoints().filter(pt => mixPool(pt.id).length).map(pt => { const it = leastSeen(mixPool(pt.id), 1, x => x.id)[0]; return { k: it.k, it }; }));
+  if (mode === 'weak'){
+    const pts = shuffle(secPoints().filter(x => mixPool(x.id).length).map(x => x.id)).sort((a, b) => weakScore(a) - weakScore(b)).slice(0, 3);
+    return leastSeen(pts.flatMap(mixPool), 10, x => x.id).map(it => ({ k: it.k, it }));
+  }
+  return [];
+}
+
+/* ===================== SCREENS ===================== */
+function show(id){
+  $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  window.scrollTo(0, 0);
+  Sky.setMode(id === 'game' ? 'game' : id === 'home' || id === 'landing' ? 'home' : 'other');
+}
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 1600); }
+const SPEAKER = /(^|<br>)([AB]):/g;
+function fmt(s){ return esc(s).replace(/ {2}(B:)/g, '<br>$1').replace(SPEAKER, '$1<b class="spk">$2</b>'); }
+
+const MUTE_ICON = m => m
+  ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>'
+  : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+function sessionTotals(){
+  const s = store.session; let c = 0, t = 0; const by = {};
+  if (s) s.rounds.forEach(r => { c += r.c; t += r.t; Object.entries(r.by).forEach(([p, v]) => { by[p] = by[p] || [0, 0]; by[p][0] += v[0]; by[p][1] += v[1]; }); });
+  return { c, t, xp: s ? s.xp : 0, by, rounds: s ? s.rounds.length : 0 };
+}
+
+function levelCard(){
+  const lp = levelProgress(store.xp);
+  return `<div class="panel level-card">
+      <div class="lvl-badge">${lp.L}</div>
+      <div class="lvl-info"><div class="lvl-title">${levelName(lp.L)}</div>
+        <div class="xpbar"><div style="width:${Math.round(lp.frac * 100)}%"></div></div>
+        <div class="muted small">${store.xp} XP · ${lp.need - lp.into} XP to level ${lp.L + 1}</div></div>
+    </div>`;
+}
+function sessionStrip(){
+  const st = sessionTotals();
+  return `<div class="panel session-strip">
+      ${st.t ? `<div><div class="eyebrow">This session</div><div class="s-num">${st.c} / ${st.t} correct (${pct(st.c, st.t)}%) · ${st.xp} XP</div></div>
+        <button class="btn primary small" data-act="report">Report</button>`
+             : `<div class="muted small">Play any game to start a session. Your grammar and vocabulary scores add up into one report.</div>`}
+    </div>`;
+}
+const animBar = sel => requestAnimationFrame(() => { const f = $(sel + ' .xpbar>div'); if (f) { const w = f.style.width; f.style.width = '0'; requestAnimationFrame(() => f.style.width = w); } });
+const secStars = x => secPoints(x).reduce((a, p) => a + mastery(p.id), 0);
+const STAR_SVG = '<svg viewBox="0 0 48 48"><path d="M24 4l5.6 13.2L44 18.4 33 28l3.4 14L24 34.6 11.6 42 15 28 4 18.4l14.4-1.2z" fill="currentColor"/></svg>';
+const GEAR_SVG = '<svg viewBox="0 0 48 48"><path fill="currentColor" fill-rule="evenodd" d="M21 3h6l1 6 4 1.7 5-3.6 4.2 4.2-3.6 5L39.3 20l6 1v6l-6 1-1.7 4 3.6 5-4.2 4.2-5-3.6-4 1.7-1 6h-6l-1-6-4-1.7-5 3.6-4.2-4.2 3.6-5L8.7 28l-6-1v-6l6-1 1.7-4-3.6-5 4.2-4.2 5 3.6 4-1.7zM24 16a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/></svg>';
+function renderLanding(){
+  $('#landing').innerHTML = `
+    <header class="top">
+      <div><div class="eyebrow">Outcomes Intermediate</div><h1>Units 1–4 Revision</h1></div>
+      <button class="icon-btn" data-act="mute" aria-label="Sound on or off">${MUTE_ICON(store.muted)}</button>
+    </header>
+    ${levelCard()}
+    ${sessionStrip()}
+    <div class="doors">
+      <button class="door-card sky" data-act="section" data-s="G">
+        <span class="door-art">${STAR_SVG}</span>
+        <span class="door-txt"><span class="eyebrow">Grammar</span><span class="door-title">The Observatory</span>
+        <span class="muted small">${secPoints('G').length} grammar points · ${secStars('G')} / ${secPoints('G').length * 5} stars</span></span>
+      </button>
+      <button class="door-card clock" data-act="section" data-s="V">
+        <span class="door-art">${GEAR_SVG}</span>
+        <span class="door-txt"><span class="eyebrow">Vocabulary & conversation</span><span class="door-title">The Workshop</span>
+        <span class="muted small">${secPoints('V').length} topics · ${secStars('V')} / ${secPoints('V').length * 5} gears</span></span>
+      </button>
+    </div>
+    <nav class="foot"><button class="btn ghost small" data-act="history">Progress & history</button><button class="btn ghost small" data-act="help">How to play</button></nav>`;
+  animBar('#landing');
+}
+function renderHome(){
+  const T = THEME[SEC];
+  const units = T.units.map(u => {
+    const ps = secPoints().filter(p => p.unit === u); if (!ps.length) return '';
+    return `
+    <div class="unit"><div class="unit-head"><span class="u">${u === 'PE' ? 'Practical English' : 'Unit ' + u}</span><span class="t">${u === 'PE' ? 'Episodes 3 and 4' : esc(T.unitNames[u])}</span></div>
+    <div class="pgrid">${ps.map(p => `
+      <button class="pcard" data-act="point" data-p="${p.id}">
+        <span class="pc-id">${p.code}</span><span class="pc-title">${esc(p.title)}</span>${starsHtml(mastery(p.id))}
+        <span class="pc-sub">${esc(p.sub)}</span>
+      </button>`).join('')}</div></div>`; }).join('');
+  $('#home').innerHTML = `
+    <div class="back-row"><button class="btn ghost small back-btn" data-act="landing">${BACK}Menu</button><div style="flex:1"></div>
+      <button class="icon-btn" data-act="mute" aria-label="Sound on or off">${MUTE_ICON(store.muted)}</button></div>
+    <header class="top"><div><div class="eyebrow">${T.eyebrow}</div><h1>${T.title}</h1></div></header>
+    ${sessionStrip()}
+    <div class="quick">
+      <button class="btn primary" data-act="start" data-p="ALL" data-mode="all"><span>Mixed revision</span><span class="small" style="font-weight:700">all ${secPoints().length} ${SEC === 'V' ? 'topics' : 'points'}</span></button>
+      <button class="btn ghost" data-act="start" data-p="WEAK" data-mode="weak"><span>Weak spots</span><span class="small muted" style="font-weight:700">your lowest 3</span></button>
+    </div>
+    ${units}
+    <nav class="foot"><button class="btn ghost small" data-act="history">Progress & history</button><button class="btn ghost small" data-act="help">How to play</button></nav>`;
+}
+
+let currentPoint = null;
+function renderPoint(p){
+  currentPoint = p; const P = PT[p], acc = recentAcc(p), s = store.stats[p];
+  $('#point').innerHTML = `
+    <div class="back-row"><button class="btn ghost small back-btn" data-act="home">${BACK}Back</button><div class="eyebrow">${P.unit === 'PE' ? 'Practical English' : 'Unit ' + P.unit}</div></div>
+    <div class="panel point-hero">
+      <div class="code">${P.code}${P.star ? ' · ' + esc(P.star) : ''}</div>
+      <h2>${esc(P.title)}</h2><div class="muted">${esc(P.sub)}</div>
+      ${starsHtml(mastery(p))}
+      <div class="muted small" style="margin-top:6px">${acc === null ? 'Not played yet. ' + THEME[SEC].light : `Last ${s.r.length} answers: ${Math.round(acc * 100)}% correct`}</div>
+    </div>
+    <div class="modes">${modesFor(p).map(m => `
+      <button class="mode" data-act="start" data-p="${p}" data-mode="${m}"><span class="mi">${ICON[m]}</span>
+        <span><div class="mn">${MODES[m].name}</div><div class="md">${MODES[m].desc}</div></span></button>`).join('')}</div>`;
+}
+const BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+
+/* ===================== GAME ENGINE ===================== */
+let G = null;
+const PRAISE = ['Correct!', 'Brilliant!', 'Spot on!', 'Nice one!', 'Perfect!', 'Stellar!', 'Exactly right!'];
+const stage = () => $('#stage');
+
+function startRound(p, mode){
+  ensureSession();
+  const q = buildQueue(p, mode);
+  if (!q.length) return;
+  const total = q.reduce((a, e) => a + (e.k === 'x' ? e.board.pairs.length : 1), 0);
+  G = { p, mode, q, qi: 0, slot: 0, total, c: 0, t: 0, streak: 0, xp: 0, by: {}, mistakes: [], lvlBefore: levelOf(store.xp), locked: false };
+  const label = p === 'ALL' ? 'Mixed revision · ' + THEME[SEC].name : p === 'WEAK' ? 'Weak spots · ' + THEME[SEC].name : `${PT[p].code} · ${MODES[mode].name}`;
+  $('#hudTitle').textContent = label;
+  show('game'); Sky.setRound(total); updateHud(); renderItem();
+}
+function updateHud(){
+  $('#progFill').style.width = (100 * G.slot / G.total) + '%';
+  const sEl = $('#hudStreak'); sEl.textContent = 'streak ' + G.streak; sEl.classList.toggle('hot', G.streak >= 3);
+  $('#hudXp').textContent = G.xp + ' XP';
+}
+function award(ok, p, base, bonus = 0, quiet = false){
+  const s = store.stats[p] || (store.stats[p] = { r: [], n: 0, c: 0 });
+  s.r.push(ok ? 1 : 0); if (s.r.length > 20) s.r.shift(); s.n++; if (ok) s.c++;
+  store.answered = (store.answered || 0) + 1;
+  const b = G.by[p] || (G.by[p] = [0, 0]); b[1]++; G.t++;
+  let gained = 0;
+  if (ok){
+    b[0]++; G.c++; G.streak++;
+    gained = base + Math.min(G.streak - 1, 5) * 2 + bonus; G.xp += gained; store.xp += gained;
+    if (G.streak > store.bestStreak) store.bestStreak = G.streak;
+  } else G.streak = 0;
+  Sky.lightStar(G.slot, ok); G.slot++;
+  if (!quiet){
+    if (ok && G.streak % 5 === 0){ Sfx.streak(); toast(G.streak + ' in a row! ✨'); }
+    else if (ok) Sfx.correct(); else Sfx.wrong();
+  }
+  updateHud(); save();
+  return gained;
+}
+function next(){ if (!G) return; G.qi++; renderItem(); }
+function renderItem(){
+  G.locked = false;
+  const e = G.q[G.qi];
+  if (!e) return endRound();
+  G.t0 = Date.now();
+  ({ g: renderGap, m: renderMC, f: renderFault, s: renderSort, x: renderMatch })[e.k](e);
+}
+const isLastItem = () => G.qi >= G.q.length - 1;
+function fillSentence(text, ans){
+  const [b, a = ''] = text.split('___');
+  const shown = b.trim() === '' ? cap(ans) : ans;
+  return fmt(b) + '<mark>' + esc(shown) + '</mark>' + fmt(a);
+}
+function feedback(ok, o){
+  const fb = $('#fb');
+  fb.innerHTML = `<div class="fb ${ok ? 'ok' : 'bad'}">
+    <div class="fb-head">${ok ? `<span>✓ ${pick(PRAISE)}</span><span class="fb-xp">+${o.gained} XP</span>` : '<span>✗ Not quite</span>'}</div>
+    ${!ok && o.your ? `<div class="fb-your">Your answer: <s>${esc(o.your)}</s></div>` : ''}
+    ${o.sent ? `<div class="fb-sent">${o.sent}</div>` : ''}
+    ${o.also ? `<div class="fb-also">Also correct: ${o.also}</div>` : ''}
+    ${o.note ? `<div class="fb-note">${esc(o.note)}</div>` : ''}
+    ${ruleText(o.rule) ? `<div class="fb-rule ${ok ? 'hide-rule' : ''}">${esc(ruleText(o.rule))}</div>` : ''}
+    <div class="fb-actions">${ok && ruleText(o.rule) ? '<button class="btn ghost small" data-act="why">Why?</button>' : ''}<button class="btn primary" data-act="next" id="nextBtn">${isLastItem() ? 'Finish' : 'Next'}</button></div>
+  </div>`;
+  if (!ok && o.sent) G.mistakes.push({ sent: o.sent, your: o.your || '' });
+  setTimeout(() => { fb.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 30);
+}
+
+/* ---- instruction key words ---- */
+const KEY_TERMS = ['will (’ll) or won’t','will / won’t','will or won’t','should or shouldn’t','present perfect','present simple','past simple','past participle','comparative','superlative','possessive pronoun','have to','adverb','adjective','opposite','first letter or letters','-ed or -ing'];
+const KEY_RE = new RegExp('(' + KEY_TERMS.slice().sort((a, b) => b.length - a.length).map(k => k.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&')).join('|') + ')', 'gi');
+function hiIns(t){ return esc(t).replace(KEY_RE, '<span class="kw">$1</span>'); }
+/* ---- Forge (gap fill) ---- */
+function renderGap(e){
+  const it = e.it, [b, a = ''] = it.t.split('___');
+  stage().innerHTML = `
+    <div class="ins">${hiIns(it.ins || GAP_INS[it.p])}</div>
+    <div class="sent">${fmt(b)}<span class="blank" id="blank"> </span>${fmt(a)}</div>
+    <div class="base">${it.pre || /[=:]/.test(it.b) ? esc(it.b) : '( ' + esc(it.b) + ' )'}</div>
+    <div class="gap-form" id="gapForm">
+      <input id="gapIn" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Type your answer" aria-label="Your answer">
+      <button class="btn primary" type="button" id="gapBtn">Check</button>
+    </div><div id="fb"></div>`;
+  const inp = $('#gapIn');
+  inp.addEventListener('input', () => { $('#blank').textContent = inp.value || ' '; });
+  const submit = ev => {
+    if (ev) ev.preventDefault(); if (G.locked || !inp.value.trim()) return; G.locked = true;
+    const val = inp.value.trim(), res = checkGap(it, val);
+    inp.disabled = true; $('#gapBtn').disabled = true; inp.blur();
+    const gained = award(res.ok, it.p, 12); markSeen(it.id);
+    feedback(res.ok, { gained, your: val, sent: fillSentence(it.t, it.a[0]), also: it.a.length > 1 ? it.a.slice(1).map(esc).join(', ') : '', note: res.note, rule: it.r });
+  };
+  $('#gapBtn').addEventListener('click', submit);
+  inp.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.stopPropagation(); submit(ev); } });
+  if (matchMedia('(pointer:fine)').matches) inp.focus();
+}
+
+/* ---- Three Doors (multichoice) ---- */
+function renderMC(e){
+  const it = e.it, opts = shuffle(it.o.map((o, i) => ({ o, i }))), [b, a = ''] = it.t.split('___');
+  stage().innerHTML = `
+    <div class="ins">Choose the correct answer.</div>
+    <div class="sent">${fmt(b)}<span class="blank"> </span>${fmt(a)}</div>
+    <div class="opts">${opts.map((x, k) => `<button class="opt" data-act="opt" data-i="${x.i}"><span class="door">${'abc'[k]}</span><span>${esc(x.o)}</span></button>`).join('')}</div>
+    <div id="fb"></div>`;
+  G.mcItem = it;
+}
+function chooseOpt(btn){
+  if (G.locked) return; G.locked = true;
+  const it = G.mcItem, i = +btn.dataset.i, ok = i === 0;
+  $$('.opt').forEach(o => { o.disabled = true; if (+o.dataset.i === 0) o.classList.add('good'); });
+  if (!ok) btn.classList.add('bad');
+  const bonus = ok && Date.now() - G.t0 < 6000 ? 4 : 0;
+  const gained = award(ok, it.p, 10, bonus); markSeen(it.id);
+  feedback(ok, { gained, sent: fillSentence(it.t, it.o[0]), your: ok ? '' : it.o[i], rule: it.r, note: bonus ? 'Speed bonus +4' : '' });
+}
+
+/* ---- Fault Line (error hunt) ---- */
+function renderFault(e){
+  const it = e.it;
+  stage().innerHTML = `
+    <div class="ins">One part of this sentence is wrong. Tap it.</div>
+    <div class="chunks">${it.c.map((c, i) => `<button class="chunk" data-act="chunk" data-i="${i}">${esc(c)}</button>`).join('')}</div>
+    <div id="fixArea"></div><div id="fb"></div>`;
+  G.fItem = it; G.fStage = 0;
+}
+function faultSentence(it){ return it.c.map((c, i) => i === it.w ? '<mark>' + esc(it.x[0]) + '</mark>' : esc(c)).join(' '); }
+function chooseChunk(btn){
+  if (G.locked || G.fStage !== 0) return;
+  const it = G.fItem, i = +btn.dataset.i;
+  $$('.chunk').forEach(c => c.disabled = true);
+  if (i === it.w){
+    G.fStage = 1; btn.classList.add('found'); Sfx.tap();
+    $('#fixArea').innerHTML = `<div class="fixlabel">Found it! Now choose the correction:</div>
+      <div class="opts">${shuffle(it.x.map((x, k) => ({ x, k }))).map(o => `<button class="opt" data-act="fix" data-i="${o.k}"><span>${esc(o.x)}</span></button>`).join('')}</div>`;
+  } else {
+    G.locked = true; btn.classList.add('miss'); $$('.chunk')[it.w].classList.add('actual');
+    const gained = award(false, it.p, 12); markSeen(it.id);
+    feedback(false, { gained, your: it.c[i] + ' (that part was correct)', sent: faultSentence(it), rule: it.r });
+  }
+}
+function chooseFix(btn){
+  if (G.locked) return; G.locked = true;
+  const it = G.fItem, k = +btn.dataset.i, ok = k === 0;
+  $$('#fixArea .opt').forEach(o => { o.disabled = true; if (+o.dataset.i === 0) o.classList.add('good'); });
+  if (!ok) btn.classList.add('bad');
+  const gained = award(ok, it.p, 12); markSeen(it.id);
+  feedback(ok, { gained, your: ok ? '' : it.x[k], sent: faultSentence(it), rule: it.r });
+}
+
+/* ---- Split (sorting) ---- */
+function renderSort(e){
+  const s = e.set, [txt] = e.card, two = s.bins.length === 2;
+  stage().innerHTML = `
+    <div class="ins">${two ? 'Swipe the card left or right – or tap a group.' : 'Tap the right group for this card.'}</div>
+    <div class="card-stage"><div class="sort-card" id="sCard">${esc(txt).replace('___', '<span class="blank sm"> </span>')}</div></div>
+    <div class="bins b${s.bins.length}">${s.bins.map((b, i) => `<button class="bin" data-act="bin" data-bin="${i}">${two && i === 0 ? '← ' : ''}${esc(b)}${two && i === 1 ? ' →' : ''}</button>`).join('')}</div>
+    <div id="fb"></div>`;
+  G.sEntry = e;
+  if (two) enableSwipe($('#sCard'));
+}
+function enableSwipe(card){
+  let x0 = null, y0 = 0, dx = 0, id = null;
+  const bins = $$('.bin');
+  card.addEventListener('pointerdown', ev => { if (G.locked) return; x0 = ev.clientX; y0 = ev.clientY; dx = 0; id = ev.pointerId; card.classList.add('drag'); try { card.setPointerCapture(id); } catch (e) {} });
+  card.addEventListener('pointermove', ev => {
+    if (x0 === null || ev.pointerId !== id) return;
+    dx = ev.clientX - x0; const dy = ev.clientY - y0;
+    card.style.transform = `translate(${dx}px, ${dy * 0.15}px) rotate(${dx * 0.05}deg)`;
+    bins[0].classList.toggle('lean', dx < -40); bins[1].classList.toggle('lean', dx > 40);
+  });
+  const end = ev => {
+    if (x0 === null || (ev && ev.pointerId !== id)) return;
+    x0 = null; card.classList.remove('drag'); bins.forEach(b => b.classList.remove('lean'));
+    if (Math.abs(dx) > 80) chooseBin(dx < 0 ? 0 : 1, true); else card.style.transform = '';
+  };
+  card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
+}
+function chooseBin(bi, swiped){
+  if (G.locked) return; G.locked = true;
+  const e = G.sEntry, s = e.set, [txt, bin, p] = e.card, ok = bi === bin, card = $('#sCard');
+  const gained = award(ok, p, 6); markSeen(e.id);
+  $$('.bin').forEach(b => b.disabled = true);
+  if (ok){
+    const dir = s.bins.length === 2 ? (bi === 0 ? -1 : 1) : (bi - 1);
+    card.style.transform = `translate(${dir * 120}vw, 30px) rotate(${dir * 25}deg)`; card.style.opacity = '0';
+    toast('+' + gained + ' XP');
+    setTimeout(next, 450);
+  } else {
+    card.style.transform = ''; card.classList.add('shake');
+    $$('.bin')[bin].classList.add('hint');
+    const sent = txt.includes('___') ? esc(txt).replace('___', '<mark>' + esc(s.bins[bin]) + '</mark>') : `<b>${esc(txt)}</b> → <mark>${esc(s.bins[bin])}</mark>`;
+    feedback(false, { your: s.bins[bi], sent, rule: s.rules[bin] });
+  }
+}
+
+/* ---- Halves (matching) ---- */
+function renderMatch(e){
+  const b = e.board;
+  G.mm = { b, sel: { l: null, r: null }, done: new Set(), missed: new Set(), right: shuffle(b.pairs.map((p, i) => ({ t: p[1], i }))) };
+  stage().innerHTML = `
+    <div class="ins">${esc(b.title)}: tap a beginning, then the ending that matches it.</div>
+    <div class="match">
+      <div class="mcol"><div class="lab">Beginnings</div>${b.pairs.map((p, i) => `<button class="mb" data-act="ml" data-i="${i}"><span class="pn">${i + 1}</span><span>${esc(p[0])}</span></button>`).join('')}</div>
+      <div class="mcol"><div class="lab">Endings</div>${G.mm.right.map(x => `<button class="mb" data-act="mr" data-i="${x.i}"><span class="pn">?</span><span>${esc(x.t)}</span></button>`).join('')}</div>
+    </div><div id="fb"></div>`;
+}
+function matchTap(side, btn){
+  const M = G.mm, i = +btn.dataset.i;
+  if (G.locked || M.done.has(i)) return;
+  $$(`.mb[data-act="m${side}"]`).forEach(x => x.classList.remove('sel'));
+  btn.classList.add('sel'); M.sel[side] = i; Sfx.tap();
+  if (M.sel.l === null || M.sel.r === null) return;
+  const L = M.sel.l, Rr = M.sel.r, lb = $(`.mb[data-act="ml"][data-i="${L}"]`), rb = $(`.mb[data-act="mr"][data-i="${Rr}"]`);
+  M.sel = { l: null, r: null };
+  if (L === Rr){
+    M.done.add(L);
+    [lb, rb].forEach(x => { x.classList.remove('sel'); x.classList.add('done'); x.disabled = true; });
+    rb.querySelector('.pn').textContent = L + 1;
+    const first = !M.missed.has(L);
+    award(first, M.b.p, 10, 0, !first);
+    if (!first) Sfx.tap();
+    if (M.done.size === M.b.pairs.length){ G.locked = true; setTimeout(next, 750); }
+  } else {
+    M.missed.add(L); Sfx.wrong();
+    [lb, rb].forEach(x => { x.classList.remove('sel'); x.classList.add('err'); setTimeout(() => x.classList.remove('err'), 400); });
+    G.mistakes.push({ sent: esc(M.b.pairs[L][0]) + ' <mark>' + esc(M.b.pairs[L][1]) + '</mark>', your: M.b.pairs[Rr][1] });
+  }
+}
+
+/* ---- end of round ---- */
+function endRound(){
+  const r = { p: G.p, mode: G.mode, c: G.c, t: G.t, xp: G.xp, by: G.by, at: Date.now(), sec: SEC };
+  if (G.t > 0){ const s = ensureSession(); s.rounds.push(r); s.xp += G.xp; }
+  save();
+  const perfect = G.t > 0 && G.c === G.t;
+  Sky.complete(perfect);
+  if (perfect) Sfx.perfect(); else Sfx.finish();
+  renderResult();
+  show('result');
+  const lv = levelOf(store.xp);
+  if (lv > G.lvlBefore) setTimeout(() => { if ($('#result').classList.contains('active')) levelUp(lv); else { Sfx.level(); toast('Level up! You\u2019re now level ' + lv); } }, 900);
+}
+function renderResult(){
+  const p = pct(G.c, G.t), lp = levelProgress(store.xp);
+  const msg = p === 100 ? THEME[SEC].perfect : p >= 80 ? 'Brilliant work!' : p >= 60 ? 'Good – just a few mistakes left.' : 'Keep practising – you\u2019ll get there.';
+  const title = G.p === 'ALL' ? 'Mixed revision · ' + THEME[SEC].name : G.p === 'WEAK' ? 'Weak spots · ' + THEME[SEC].name : `${PT[G.p].code} ${PT[G.p].title} · ${MODES[G.mode].name}`;
+  $('#result').innerHTML = `
+    <div class="panel result">
+      <div class="eyebrow">${esc(title)}</div>
+      <div class="big-score">${G.c}<span>/${G.t}</span></div>
+      <div class="res-msg">${msg}</div>
+      <div class="res-xp">+${G.xp} XP</div>
+      <div class="level-card" style="justify-content:center;text-align:left">
+        <div class="lvl-badge" style="width:48px;height:48px;font-size:1.25rem">${lp.L}</div>
+        <div class="lvl-info"><div class="lvl-title">${levelName(lp.L)}</div><div class="xpbar"><div style="width:${Math.round(lp.frac * 100)}%"></div></div><div class="muted small">${lp.need - lp.into} XP to level ${lp.L + 1}</div></div>
+      </div>
+      ${G.mistakes.length ? `<details class="rev"><summary>Review your mistakes (${G.mistakes.length})</summary>${G.mistakes.map(m => `<div class="rev-item">${m.sent}${m.your ? `<div class="yw">You chose: ${esc(m.your)}</div>` : ''}</div>`).join('')}</details>` : ''}
+      <div class="btn-col">
+        <button class="btn primary wide" data-act="again">Play again</button>
+        ${PT[G.p] ? `<button class="btn ghost wide" data-act="point" data-p="${G.p}">Choose another game for ${PT[G.p] ? PT[G.p].code : ''}</button>` : ''}
+        <button class="btn ghost wide" data-act="home">${THEME[SEC].back}</button>
+      </div>
+    </div>`;
+}
+function levelUp(L){
+  Sfx.level(); Sky.celebrate();
+  const o = $('#overlay');
+  o.innerHTML = `<div class="panel"><div class="eyebrow">Level up!</div><div class="lvl-badge">${L}</div><h2>${levelName(L)}</h2>
+    <p class="muted">You’ve reached level ${L}. Keep going to light up the whole sky.</p><button class="btn primary wide" data-act="closeOverlay">Brilliant!</button></div>`;
+  o.classList.add('show');
+}
+
+/* ---- session report ---- */
+function gradeFor(p){ return p >= 90 ? 'Supernova' : p >= 75 ? 'Bright Star' : p >= 60 ? 'Rising Star' : 'Keep Stargazing'; }
+function barsHtml(by, sec){
+  return secPoints(sec).filter(p => by[p.id]).map(p => { const [c, t] = by[p.id], v = pct(c, t), col = v >= 80 ? 'var(--teal)' : v >= 60 ? 'var(--gold)' : 'var(--coral)';
+    return `<div class="bar"><b>${p.code}</b><div class="bt"><div style="width:${Math.max(v, 3)}%;background:${col}"></div></div><span class="bv">${c}/${t} · ${v}%</span></div>`; }).join('');
+}
+function renderReport(){
+  const st = sessionTotals(), p = pct(st.c, st.t), s = store.session;
+  const weak = ALLP.filter(x => st.by[x.id] && pct(st.by[x.id][0], st.by[x.id][1]) < 70);
+  const secTot = x => secPoints(x).reduce((a, q) => st.by[q.id] ? [a[0] + st.by[q.id][0], a[1] + st.by[q.id][1]] : a, [0, 0]);
+  const gT = secTot('G'), vT = secTot('V');
+  const d = new Date();
+  $('#report').innerHTML = `
+    <div class="back-row"><button class="btn ghost small back-btn" data-act="ret">${BACK}Back</button><div class="eyebrow">Session report</div></div>
+    <div class="panel">
+      <div class="report-head"><div class="big-score">${p}<span>%</span></div><div class="grade">${gradeFor(p)}</div></div>
+      <div class="stat-row">
+        <div class="stat"><b>${st.c}/${st.t}</b><span>correct</span></div>
+        <div class="stat"><b>${st.xp}</b><span>XP earned</span></div>
+        <div class="stat"><b>${st.rounds}</b><span>games</span></div>
+      </div>
+      ${!st.t ? '<div class="muted small">No answers yet.</div>' : ''}
+      ${gT[1] ? `<div class="sec-title">Grammar · ${gT[0]}/${gT[1]} · ${pct(gT[0], gT[1])}%</div><div class="bars">${barsHtml(st.by, 'G')}</div>` : ''}
+      ${vT[1] ? `<div class="sec-title">Vocabulary · ${vT[0]}/${vT[1]} · ${pct(vT[0], vT[1])}%</div><div class="bars">${barsHtml(st.by, 'V')}</div>` : ''}
+      ${weak.length ? `<div class="sec-title">Focus on</div><div class="focus-chips">${weak.map(x => `<span class="chip">${x.sec === 'V' ? 'Vocab ' : 'Grammar '}${x.code} ${esc(x.title)}</span>`).join('')}</div>` : ''}
+      <div class="sec-title">Games played</div>
+      <div class="list">${s ? s.rounds.map(r => `<div class="li"><span>${r.p === 'ALL' || r.p === 'WEAK' ? (r.p === 'ALL' ? 'Mixed revision' : 'Weak spots') + ' · ' + THEME[r.sec || 'G'].name : (PT[r.p].sec === 'V' ? 'Vocab ' : 'Grammar ') + PT[r.p].code + ' · ' + MODES[r.mode].name}</span><b>${r.c}/${r.t}</b></div>`).join('') : ''}</div>
+      <div class="stamp">Level ${levelOf(store.xp)} ${levelName(levelOf(store.xp))} · ${d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short', year:'numeric' })} ${d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' })}</div>
+    </div>
+    <div class="btn-col">
+      <button class="btn primary wide" data-act="ret">Keep playing</button>
+      <button class="btn ghost wide" data-act="endSession">Finish this session and start a new one</button>
+    </div>`;
+}
+function endSession(){
+  const st = sessionTotals();
+  if (st.t > 0){ store.history.unshift({ start: store.session.start, end: Date.now(), c: st.c, t: st.t, xp: st.xp, by: st.by, games: st.rounds }); store.history = store.history.slice(0, 40); }
+  store.session = null; save(); toast('Session saved'); goLanding();
+}
+
+/* ---- history & progress ---- */
+function renderHistory(){
+  const lp = levelProgress(store.xp);
+  const fmtD = t => new Date(t).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + ' ' + new Date(t).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  $('#history').innerHTML = `
+    <div class="back-row"><button class="btn ghost small back-btn" data-act="ret">${BACK}Back</button><div class="eyebrow">Progress & history</div></div>
+    <div class="panel">
+      <div class="stat-row">
+        <div class="stat"><b>${lp.L}</b><span>level</span></div>
+        <div class="stat"><b>${store.xp}</b><span>total XP</span></div>
+        <div class="stat"><b>${store.bestStreak}</b><span>best streak</span></div>
+      </div>
+      <div class="muted small" style="text-align:center">${store.answered || 0} answers so far</div>
+      ${['G', 'V'].map(x => `<div class="sec-title">${THEME[x].name} (your last 20 answers on each)</div>
+      <div class="list">${secPoints(x).map(p => { const a = recentAcc(p.id); return `<div class="li"><span><b>${p.code}</b> ${esc(p.title)}</span><span>${starsHtml(mastery(p.id))} <span class="muted small">${a === null ? '–' : Math.round(a * 100) + '%'}</span></span></div>`; }).join('')}</div>`).join('')}
+      <div class="sec-title">Past sessions</div>
+      <div class="list">${store.history.length ? store.history.map(h => `<div class="li"><span>${fmtD(h.end)} · ${h.games} game${h.games === 1 ? '' : 's'}</span><b>${h.c}/${h.t} · ${pct(h.c, h.t)}%</b></div>`).join('') : '<div class="muted small">Finished sessions appear here. Open the session report and tap “Finish this session”.</div>'}</div>
+      <div class="muted small" style="margin-top:14px">Everything is saved only in this browser on this phone. Nothing is sent anywhere.</div>
+    </div>
+    <div class="btn-col"><button class="btn ghost wide" data-act="reset">Reset all progress</button></div>`;
+}
+function renderHelp(){
+  $('#help').innerHTML = `
+    <div class="back-row"><button class="btn ghost small back-btn" data-act="ret">${BACK}Back</button><div class="eyebrow">How to play</div></div>
+    <div class="panel help">
+      <h3>Grammar and vocabulary</h3><p>Choose <b>Grammar</b> (the Observatory) or <b>Vocabulary</b> (the Workshop) on the first screen. Each grammar point or vocabulary topic has five stars. Your stars come from your last 20 answers on it, so keep practising to get all five.</p>
+      <h3>The games</h3>
+      <p><b>Forge</b> – type the missing words. Short forms are fine: <i>won’t</i> and <i>will not</i> are both correct. If the first letters are given, you can type the whole word or just the missing letters.</p>
+      <p><b>Three Doors</b> – choose the right answer. Answer within 6 seconds for bonus XP.</p>
+      <p><b>Fault Line</b> – tap the wrong part of the sentence, then choose the correction.</p>
+      <p><b>Split</b> – swipe or tap each card into the right group.</p>
+      <p><b>Halves</b> – match the beginnings and endings of sentences.</p>
+      <p><b>Star Mix</b>, <b>Mixed revision</b> and <b>Weak spots</b> mix the game types together.</p>
+      <h3>Scores</h3><p>Every correct answer earns XP, with extra XP for streaks. All your games add up into one <b>session report</b> – open it from the top of any menu screen. When you finish a session, it’s saved in your history.</p>
+      <p class="muted small">Your progress is saved only on this phone, in this browser.</p>
+    </div>`;
+}
+
+let retTo = 'landing';
+const curScreen = () => { const a = $('.screen.active'); return a && a.id === 'home' ? 'home' : 'landing'; };
+function goLanding(){ applyTheme('G'); renderLanding(); show('landing'); }
+function ask(title, text, yes, fn){
+  ask.fn = fn; const o = $('#overlay');
+  o.innerHTML = `<div class="panel"><h2>${esc(title)}</h2><p class="muted">${esc(text)}</p>
+    <div class="btn-col"><button class="btn primary wide" data-act="askYes">${esc(yes)}</button><button class="btn ghost wide" data-act="closeOverlay">Cancel</button></div></div>`;
+  o.classList.add('show');
+}
+/* ===================== EVENTS ===================== */
+document.addEventListener('pointerdown', () => Sfx.unlock(), { once: true });
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act;
+  switch (act){
+    case 'point': Sfx.tap(); renderPoint(el.dataset.p); show('point'); break;
+    case 'start': Sfx.tap(); startRound(el.dataset.p, el.dataset.mode); break;
+    case 'home': renderHome(); show('home'); break;
+    case 'landing': goLanding(); break;
+    case 'section': Sfx.tap(); setSection(el.dataset.s); renderHome(); show('home'); break;
+    case 'ret': if (retTo === 'home') { renderHome(); show('home'); } else goLanding(); break;
+    case 'mute': store.muted = !store.muted; save(); el.innerHTML = MUTE_ICON(store.muted); if (!store.muted) Sfx.correct(); break;
+    case 'opt': chooseOpt(el); break;
+    case 'chunk': chooseChunk(el); break;
+    case 'fix': chooseFix(el); break;
+    case 'bin': chooseBin(+el.dataset.bin); break;
+    case 'ml': matchTap('l', el); break;
+    case 'mr': matchTap('r', el); break;
+    case 'next': next(); break;
+    case 'why': { const r = $('.fb-rule'); if (r) r.classList.remove('hide-rule'); el.remove(); break; }
+    case 'again': startRound(G.p, G.mode); break;
+    case 'quit':
+      if (G && G.t > 0){ const s = ensureSession(); s.rounds.push({ p: G.p, mode: G.mode, c: G.c, t: G.t, xp: G.xp, by: G.by, at: Date.now(), sec: SEC }); s.xp += G.xp; save(); }
+      { const back = G && PT[G.p] ? G.p : null; G = null;
+        if (back){ renderPoint(back); show('point'); } else { renderHome(); show('home'); } }
+      break;
+    case 'report': retTo = curScreen(); renderReport(); show('report'); break;
+    case 'endSession': ask('Finish this session?', 'It will be saved in your history and a new session will start.', 'Finish session', endSession); break;
+    case 'history': retTo = curScreen(); renderHistory(); show('history'); break;
+    case 'help': retTo = curScreen(); renderHelp(); show('help'); break;
+    case 'reset':
+      ask('Reset ALL progress?', 'Your XP, stars and history on this phone will be deleted. This cannot be undone.', 'Delete everything', () => {
+        const m = store.muted; store = freshStore(); store.muted = m; save(); goLanding(); toast('Progress reset');
+      });
+      break;
+    case 'askYes': { const fn = ask.fn; ask.fn = null; $('#overlay').classList.remove('show'); if (fn) fn(); break; }
+    case 'closeOverlay': $('#overlay').classList.remove('show'); break;
+  }
+});
+document.addEventListener('keydown', ev => {
+  if (ev.key !== 'Enter' || !$('#game').classList.contains('active')) return;
+  const nb = $('#nextBtn'); if (nb && document.activeElement !== nb){ ev.preventDefault(); nb.click(); }
+});
+
+/* ===================== BOOT ===================== */
+renderLanding(); document.body.dataset.theme = 'sky';
+(function loadThree(){
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  s.async = true; s.onload = () => Sky.init();
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>
